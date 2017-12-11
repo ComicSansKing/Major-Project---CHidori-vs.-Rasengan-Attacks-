@@ -1,5 +1,5 @@
 #Proposal
-##Evan, Talon, and Gavin
+##Evan and Talon
 
 ##Game title: 
 *CHidori vs. Rasengan Attacks! Naruto Shippuuden: Clash of Shinobi Striker Ultimate Ninja Council: Storm: Impact: Heroes: Combat Fighting: Origins 2 | Part 1 | The Third | Season 1 | KONOHA UNDER PRESSURE ARC
