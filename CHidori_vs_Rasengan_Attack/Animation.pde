@@ -1,11 +1,7 @@
 class Animation {
-
+  //NONE OF THIS WORKS YET!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   int player;
   Player character;
-
-
-
-
 
   //constructor
 
@@ -50,6 +46,19 @@ class Animation {
     sasukeAnimationMoveLeft = new PImage[6];
     sasukeAnimationAttackRight = new PImage[6];
     sasukeAnimationAttackLeft = new PImage[6];
+  }
+  
+  
+  void moveLeft(){
+    if (player == 1){
+      for(int frame = 1;frame<=6;frame++){
+        
+        
+      }
+     
+    
+    
+    } 
   }
 
 

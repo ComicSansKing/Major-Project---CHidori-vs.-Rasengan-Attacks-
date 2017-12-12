@@ -1,11 +1,9 @@
-
 class Attack {
   //data
   int player;
   int damage;
   float x, y;
   float dx, dy;
-
 
   //constructor(s)
   Attack(int _damage, float _x, float _y, float _dx, float _dy) {
@@ -20,7 +18,7 @@ class Attack {
   void meleeAttack(HP health) {
     fill(255, 0, 0);
     rectMode(CENTER);
+    //if hit take in damage
     health.gotHit(damage);
-    println("eatass");
   }
 }

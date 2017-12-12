@@ -1,67 +1,62 @@
 class Player {
   //data
+  //numbers
   float x, y;
   float dx, dy;
   int player;
-  int hp;
+  int health;
   float radius;
   float speed = 0;
   float gravity = .2;
-  boolean jump, moveLeft, moveRight;
   float timeOfJump;
+  float timeOfHit;
   int animationStance;
+  int death;
 
 
+  //boolean
+  boolean jump, moveLeft, moveRight;
+  boolean hitting;
+  //classes
   HP currentPlayerHealth;
   Attack currentPlayerAttack;
 
-
   //constructor(s)
-  Player(float _x, float _y, int _player, int _hp, float _radius) {
+  Player(float _x, float _y, int _player, int _health, float _radius, int _death) {
+    //take in all these numbers
     x = _x;
     y = _y;
     dx = 15;
     dy = 15;
-    hp = _hp;
+    health = _health;
     radius = _radius;
     player = _player;
-    currentPlayerHealth = new HP(hp, player);
-    currentPlayerAttack = new Attack(2, x, y, dx, dy);
+    death = _death;
+
+    //calll current health and attack for each player, updates per player
+    currentPlayerHealth = new HP(health, player);
+  currentPlayerAttack = new Attack(1, x, y, dx, dy);
   }
 
+  //behaviour
   void checkIfCollidingWith(Player otherPlayer) {
+    //distance between players and radius calculated
     float distanceBetweenPlayers = dist(x, y, otherPlayer.x, otherPlayer.y);
     float sumOfRadii = radius + otherPlayer.radius;
+
+    //if the distance is less than or equal to radii then attack other player
     if (distanceBetweenPlayers <= sumOfRadii) {
       currentPlayerAttack.meleeAttack(otherPlayer.currentPlayerHealth);
     }
   }
 
-  void damage(Player otherPlayer) {
-    if (player == 1) { 
-      if (keyPressed) {
-        if (key == 'q' || key == 'Q') {
-          checkIfCollidingWith(otherPlayer);
-          currentPlayerHealth.display();
-        }
-      }
-    }
-    if (player == 2) { 
-      if (keyPressed) {
-        if (key == '0') {
-          checkIfCollidingWith(otherPlayer);
-          currentPlayerHealth.display();
-        }
-      }
-    }
-  }
-
-
 
   void keyPressed() { 
-    if (player==1) {
+    //movement and jump code for players
+    if (player == 1) {
       if (y == 600) {
         if (key == 'w'|| key == 'W') {
+          //add 100ms to millis and set jump to true
           timeOfJump = millis()+100;
           jump = true;
         }
@@ -76,27 +71,30 @@ class Player {
         animationStance = 0;
       }
     }
-    if (player==2) {
+    if (player == 2) {
       if (keyCode == UP) {
         if (y == 600) {
           timeOfJump = millis()+100;
           jump = true;
         }
       }
-
       if (keyCode == LEFT) {
         moveLeft = true;
         animationStance = 1;
       }
-
       if (keyCode == RIGHT) {
         moveRight = true;
         animationStance = 0;
       }
+      if (key == '0') {
+          timeOfHit = millis() + 100;
+          hitting = true;
+        }
     }
   }
 
   void keyReleased() {
+    //when any key released set any movement to false
     if (player == 1) {
       if (key == 'w' || key == 'W') {
         jump = false;
@@ -109,6 +107,10 @@ class Player {
       if (key == 'd' || key == 'D') {
         moveRight = false;
       }
+      if (key == 'q' || key == 'Q') {
+          timeOfHit = millis() + 100;
+          hitting = true;
+        }
     }
     if (player == 2) {
       if (keyCode == UP) {
@@ -141,11 +143,13 @@ class Player {
 
 
   void movement() {
+    //if jump is true and if millis  is less than millis + 100ms then jump
     if (jump) {
       if (millis() <= timeOfJump ) {
         y -= 25;
       }
     }
+    //update movement for x 
     if (moveLeft) {
       x -= 10;
     }
@@ -155,20 +159,41 @@ class Player {
     }
   }
 
-
-
-  //behaviour
-  void playerfunc(Player otherPlayer) {
-    currentPlayerHealth.display();
-    movement();
-    damage(otherPlayer);
-    gravity();
+  void death() {
+    if (currentPlayerHealth.health <= 0) {
+      death = 1;
+    }
   }
 
+  void hitting(Player otherPlayer) {
+    if (hitting && millis() <= timeOfHit ) { 
+      checkIfCollidingWith(otherPlayer);
+      currentPlayerHealth.display();
+    }
+    else{
+     hitting = false; 
+    }
+    }
 
-  void display() {
-    rectMode(CENTER);
-    rect(x, y, 20, 20);
-    println("eatass");
+    void playerFunc(Player otherPlayer) {
+      //take in other player's data
+      //gravity, movement, and .display applied to self
+      currentPlayerHealth.display();
+      movement();
+      death();
+      hitting(otherPlayer);
+      gravity();
+    }
+
+    void display() {
+      //change player colours
+      rectMode(CENTER);
+      if (player == 1) {
+        fill(252, 176, 45);
+      }
+      if (player == 2) {
+        fill(0, 34, 160);
+      }
+      rect(x, y, 100, 200);
+    }
   }
-}

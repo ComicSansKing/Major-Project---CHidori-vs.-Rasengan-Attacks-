@@ -1,4 +1,3 @@
-
 class Button {
   //data
   float x, y, buttonWidth, buttonHeight;
@@ -10,9 +9,11 @@ class Button {
   //constructor(s)
 
   Button(float _x, float _y, int _button) {
+    //take in x, y, and button
     x = _x;
     y = _y;
     button = _button;
+    //set button to 0 and then load button images
     state = 0;
     startGame1 = loadImage("Menu/startGame1.png");
     startGame2 = loadImage("Menu/startGame2.png");
@@ -22,10 +23,9 @@ class Button {
     back2 = loadImage("Menu/back2.png");
   }
 
-
   //behaviour
   void calculator() {
-
+    //calculate button size
     buttonWidth = width/4;
     buttonHeight = height/5;
 
@@ -36,8 +36,8 @@ class Button {
     right = x + buttonWidth;
   }
 
-
   boolean mouseIsOnButton() {
+    //if all true return true
     return ((mouseX > left) &&
       (mouseX < right) &&
       (mouseY > top) &&
@@ -45,6 +45,7 @@ class Button {
   }
 
   void display() {
+    //if button is this button load image for on and off
     if (button == 0) {
       if (mouseIsOnButton()) {
         image(startGame2, x, y, buttonWidth, buttonHeight);
@@ -65,13 +66,9 @@ class Button {
       }
     }
   }
-  
-  
-    
-    
-  
 
   void mousePressed() {
+    //if mouse is on button and pressed and is this button change state
     if (mouseIsOnButton()) {
       if (button == 0) {
         state = 1;
