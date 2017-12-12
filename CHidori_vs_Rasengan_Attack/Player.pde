@@ -12,6 +12,7 @@ class Player {
   float timeOfHit;
   int animationStance;
   int death;
+  int counter = 0;
 
 
   //boolean
@@ -20,7 +21,8 @@ class Player {
   //classes
   HP currentPlayerHealth;
   Attack currentPlayerAttack;
-
+  Animation currentPlayerAnimation;
+  
   //constructor(s)
   Player(float _x, float _y, int _player, int _health, float _radius, int _death) {
     //take in all these numbers
@@ -36,6 +38,7 @@ class Player {
     //calll current health and attack for each player, updates per player
     currentPlayerHealth = new HP(health, player);
   currentPlayerAttack = new Attack(1, x, y, dx, dy);
+  currentPlayerAnimation = new Animation(player);
   }
 
   //behaviour
@@ -189,11 +192,23 @@ class Player {
       //change player colours
       rectMode(CENTER);
       if (player == 1) {
-        fill(252, 176, 45);
+        currentPlayerAnimation.moveLeft();
+        imageMode(CENTER);
+        image(currentPlayerAnimation.narutoAnimationMoveLeft[counter], x,y,100,100);
+        if (frameCount % 2 == 0){
+         counter++;
+         counter = counter % currentPlayerAnimation.narutoAnimationMoveLeft.length;
+          
+        }
       }
       if (player == 2) {
         fill(0, 34, 160);
+        rect(x, y, 100, 200);
       }
-      rect(x, y, 100, 200);
+
     }
+    
+    
+    
+    
   }

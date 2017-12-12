@@ -13,6 +13,7 @@ int playerHealth;
 float player1X, player2X;
 float playerY;
 float movieDuration, movieTime;
+int counter = 0;
 
 //images
 PImage openingBackground, menuBackground, backgroundGameImage, optionsImage;
@@ -22,8 +23,7 @@ Minim minim;
 AudioPlayer menu;
 AudioPlayer buttonSound;
 //players
-Animation naruto;
-Animation sasuke;
+
 Player player1;
 Player player2;
 
@@ -47,8 +47,7 @@ void setup() {
   //player location set as well as animation
   player1 = new Player(player1X, playerY, 1, playerHealth, 110,0);
   player2 = new Player(player2X, playerY, 2, playerHealth, 110,0);
-  naruto = new  Animation(1, player1);
-  sasuke = new Animation(2, player2);
+
 
   //loads movie
   openingMovie = new Movie(this, "Menu/Opening Movie.mp4");
@@ -138,6 +137,7 @@ void statePicker() {
   }  
   if (startGame.state == 1) { //in game
     stateGame();
+   
   } 
   if (options.state == 2) {//options
     stateOptions();
@@ -241,3 +241,10 @@ void keyReleased() {
   player1.keyReleased(); 
   player2.keyReleased();
 }
+
+
+
+        
+
+    
+  
