@@ -14,6 +14,7 @@ class Player {
   int death;
   int counter = 0;
   int direction;
+  int touching = 0;
   float attack = 2.5;
   float block = 0;
 
@@ -32,8 +33,8 @@ class Player {
     //take in all these numbers
     x = _x;
     y = _y;
-    dx = 15;
-    dy = 15;
+    dx = 10;
+    dy = 10;
     health = _health;
     radius = _radius;
     player = _player;
@@ -84,7 +85,7 @@ class Player {
         animationStance = 0;
         direction = 1;
       }
-      if (key == 'e'|| key == 'E') {
+      if (key == 'g'|| key == 'G') {
         blocking = true;
         block = 255;
       }
@@ -127,11 +128,11 @@ class Player {
       if (key == 'd' || key == 'D') {
         moveRight = false;
       }
-      if (key == 'q' || key == 'Q') {
+      if (key == 'f' || key == 'F') {
         timeOfHit = millis() + 100;
         hitting = true;
       }
-      if (key == 'e'|| key == 'E') {
+      if (key == 'g'|| key == 'G') {
         blocking = false;
         block = 0;
       }
@@ -178,16 +179,20 @@ class Player {
     //if jump is true and if millis  is less than millis + 100ms then jump
     if (jump) {
       if (millis() <= timeOfJump ) {
-        y -= 25;
+        y -= 55;
       }
     }
     //update movement for x 
     if (moveLeft) {
-      x -= 10;
+      if(touching != 1){
+      x -= dx;
+      }
     }
 
     if (moveRight) {
-      x += 10;
+      if(touching != 2){
+      x += dx;
+      }
     }
   }
 
@@ -207,22 +212,60 @@ class Player {
   }
   
   void blockCheck(Player otherPlayer){
-    if (otherPlayer.blocking == true ){ 
-      if(otherPlayer.direction == 0 && x > otherPlayer.x){
-        attack = .75;
+    if (blocking == true ){ 
+      attack = 0;
+      if(direction == 0 && x > otherPlayer.x){
+        otherPlayer.attack = .75;
       }
-      if(otherPlayer.direction == 1 && x < otherPlayer.x){
-        attack = .75;
+      if(direction == 1 && x < otherPlayer.x){
+        otherPlayer.attack = .75;
       }
+    }
+    else {
+      otherPlayer.attack = 2.5;
+    }
+  }
+  
+  
+  void collisionDetection(Player otherPlayer){
+    
+    if(x + 100 == otherPlayer.x){
+      if(y-200 < otherPlayer.y && jump == true){
+       touching = 0;
+      otherPlayer.touching = 0; 
+      }
+      else{
+      touching = 2;
+      otherPlayer.touching = 1;
+      }
+      
+    }
+    else if(x - 100 == otherPlayer.x){
+      if(y - 200 < otherPlayer.y && jump == true){
+      touching = 0;
+      otherPlayer.touching = 0;
+      }
+      else{
+      touching = 1;
+      otherPlayer.touching = 2;  
+      }
+      
+    }
+    else{
+      touching = 0;
+      otherPlayer.touching = 0;
+      
     }
     
   }
+  
   
   
 
   void playerFunc(Player otherPlayer) {
     //take in other player's data
     //gravity, movement, and .display applied to self
+    collisionDetection(otherPlayer);
     currentPlayerHealth.display();
     movement();
     death();
