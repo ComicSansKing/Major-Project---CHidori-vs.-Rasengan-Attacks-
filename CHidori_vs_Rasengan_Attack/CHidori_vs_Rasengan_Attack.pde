@@ -39,7 +39,7 @@ void setup() {
   fullScreen();
 
   //player health and location set.
-  playerHealth = 200;
+  playerHealth = 600;
   player1X = 100;
   player2X = 1000;
   playerY = 600;

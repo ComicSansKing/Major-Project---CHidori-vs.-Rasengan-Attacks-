@@ -4,7 +4,7 @@ class Player {
   float x, y;
   float dx, dy;
   int player;
-  int health;
+  float health;
   float radius;
   float speed = 0;
   float gravity = .2;
@@ -13,18 +13,22 @@ class Player {
   int animationStance;
   int death;
   int counter = 0;
+  int direction;
+  float attack = 2.5;
+  float block = 0;
 
 
   //boolean
   boolean jump, moveLeft, moveRight;
   boolean hitting;
+  boolean blocking;
   //classes
   HP currentPlayerHealth;
   Attack currentPlayerAttack;
   Animation currentPlayerAnimation;
-  
+
   //constructor(s)
-  Player(float _x, float _y, int _player, int _health, float _radius, int _death) {
+  Player(float _x, float _y, int _player, float _health, float _radius, int _death) {
     //take in all these numbers
     x = _x;
     y = _y;
@@ -34,11 +38,16 @@ class Player {
     radius = _radius;
     player = _player;
     death = _death;
-
+    if (player== 1) {
+      direction = 1;
+    }
+    if (player== 2) {
+      direction = 0;
+    }
     //calll current health and attack for each player, updates per player
     currentPlayerHealth = new HP(health, player);
-  currentPlayerAttack = new Attack(1, x, y, dx, dy);
-  currentPlayerAnimation = new Animation(player);
+    currentPlayerAttack = new Attack(x, y, dx, dy);
+    currentPlayerAnimation = new Animation(player);
   }
 
   //behaviour
@@ -49,7 +58,7 @@ class Player {
 
     //if the distance is less than or equal to radii then attack other player
     if (distanceBetweenPlayers <= sumOfRadii) {
-      currentPlayerAttack.meleeAttack(otherPlayer.currentPlayerHealth);
+      currentPlayerAttack.meleeAttack(otherPlayer.currentPlayerHealth,attack);
     }
   }
 
@@ -67,11 +76,17 @@ class Player {
       if (key == 'a'|| key == 'A') {
         moveLeft = true;
         animationStance = 1;
+        direction = 0;
       }
 
       if (key == 'd'|| key == 'D') {
         moveRight = true;
         animationStance = 0;
+        direction = 1;
+      }
+      if (key == 'e'|| key == 'E') {
+        blocking = true;
+        block = 255;
       }
     }
     if (player == 2) {
@@ -84,15 +99,17 @@ class Player {
       if (keyCode == LEFT) {
         moveLeft = true;
         animationStance = 1;
+        direction = 0;
       }
       if (keyCode == RIGHT) {
         moveRight = true;
         animationStance = 0;
+        direction = 1;
       }
-      if (key == '0') {
-          timeOfHit = millis() + 100;
-          hitting = true;
-        }
+      if (key == '1') {
+        blocking = true;
+        block = 255;
+      }
     }
   }
 
@@ -111,9 +128,13 @@ class Player {
         moveRight = false;
       }
       if (key == 'q' || key == 'Q') {
-          timeOfHit = millis() + 100;
-          hitting = true;
-        }
+        timeOfHit = millis() + 100;
+        hitting = true;
+      }
+      if (key == 'e'|| key == 'E') {
+        blocking = false;
+        block = 0;
+      }
     }
     if (player == 2) {
       if (keyCode == UP) {
@@ -127,6 +148,14 @@ class Player {
 
       if (keyCode == RIGHT) {
         moveRight = false;
+      }
+      if (key == '0') {
+        timeOfHit = millis() + 100;
+        hitting = true;
+      }
+      if (key == '1') {
+        blocking = false;
+        block = 0;
       }
     }
   }
@@ -172,43 +201,74 @@ class Player {
     if (hitting && millis() <= timeOfHit ) { 
       checkIfCollidingWith(otherPlayer);
       currentPlayerHealth.display();
+    } else {
+      hitting = false;
     }
-    else{
-     hitting = false; 
-    }
-    }
-
-    void playerFunc(Player otherPlayer) {
-      //take in other player's data
-      //gravity, movement, and .display applied to self
-      currentPlayerHealth.display();
-      movement();
-      death();
-      hitting(otherPlayer);
-      gravity();
-    }
-
-    void display() {
-      //change player colours
-      rectMode(CENTER);
-      if (player == 1) {
-        currentPlayerAnimation.moveLeft();
-        imageMode(CENTER);
-        image(currentPlayerAnimation.narutoAnimationMoveLeft[counter], x,y,100,100);
-        if (frameCount % 2 == 0){
-         counter++;
-         counter = counter % currentPlayerAnimation.narutoAnimationMoveLeft.length;
-          
-        }
+  }
+  
+  void blockCheck(Player otherPlayer){
+    if (otherPlayer.blocking == true ){ 
+      if(otherPlayer.direction == 0 && x > otherPlayer.x){
+        attack = .75;
       }
-      if (player == 2) {
-        fill(0, 34, 160);
-        rect(x, y, 100, 200);
+      if(otherPlayer.direction == 1 && x < otherPlayer.x){
+        attack = .75;
       }
-
     }
-    
-    
-    
     
   }
+  
+  
+
+  void playerFunc(Player otherPlayer) {
+    //take in other player's data
+    //gravity, movement, and .display applied to self
+    currentPlayerHealth.display();
+    movement();
+    death();
+    blockCheck(otherPlayer);
+    hitting(otherPlayer);
+    gravity();
+
+  }
+
+  void display() {
+    //change player colours
+    rectMode(CENTER);
+    if (player == 1) {
+      //currentPlayerAnimation.moveLeft();
+      //imageMode(CENTER);
+      //image(currentPlayerAnimation.narutoAnimationMoveLeft[counter], x,y,100,100);
+      //if (frameCount % 2 == 0){
+      // counter++;
+      // counter = counter % currentPlayerAnimation.narutoAnimationMoveLeft.length;
+
+      
+
+      fill(252, 188, 40);
+      rect(x, y, 100, 200);
+      if (direction == 0) {
+        fill(252, 188, block);
+        rect(x-50, y, 50, 50);
+      }
+      if (direction == 1) {
+        fill(252, 188, block);
+        rect(x+50, y, 50, 50);
+      }
+    }
+    
+    if (player == 2) {
+      fill(0, 34, 160);
+      rect(x, y, 100, 200);
+
+      if (direction == 0) {
+        fill(0, 34, block);
+        rect(x-50, y, 50, 50);
+      }
+      if (direction == 1) {
+        fill(0, 34, block);
+        rect(x+50, y, 50, 50);
+      }
+    }
+  }
+}

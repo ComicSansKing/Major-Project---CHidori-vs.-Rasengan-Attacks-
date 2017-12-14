@@ -1,13 +1,13 @@
 class Attack {
   //data
   int player;
-  int damage;
+  float damage;
   float x, y;
   float dx, dy;
 
   //constructor(s)
-  Attack(int _damage, float _x, float _y, float _dx, float _dy) {
-    damage = _damage; 
+  Attack( float _x, float _y, float _dx, float _dy) {
+     
     x = _x;
     y = _y;
     dx = _dx;
@@ -15,7 +15,7 @@ class Attack {
   }
 
   //behaviour
-  void meleeAttack(HP health) {
+  void meleeAttack(HP health,float damage) {
     fill(255, 0, 0);
     rectMode(CENTER);
     //if hit take in damage
