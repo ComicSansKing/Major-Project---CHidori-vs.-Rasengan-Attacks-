@@ -59,7 +59,7 @@ class Player {
 
     //if the distance is less than or equal to radii then attack other player
     if (distanceBetweenPlayers <= sumOfRadii) {
-      currentPlayerAttack.meleeAttack(otherPlayer.currentPlayerHealth,attack);
+      currentPlayerAttack.meleeAttack(otherPlayer.currentPlayerHealth, attack);
     }
   }
 
@@ -77,13 +77,11 @@ class Player {
       if (key == 'a'|| key == 'A') {
         moveLeft = true;
         animationStance = 1;
-        direction = 0;
       }
 
       if (key == 'd'|| key == 'D') {
         moveRight = true;
         animationStance = 0;
-        direction = 1;
       }
       if (key == 'g'|| key == 'G') {
         blocking = true;
@@ -100,17 +98,18 @@ class Player {
       if (keyCode == LEFT) {
         moveLeft = true;
         animationStance = 1;
-        direction = 0;
       }
       if (keyCode == RIGHT) {
         moveRight = true;
         animationStance = 0;
-        direction = 1;
       }
       if (key == '1') {
         blocking = true;
         block = 255;
       }
+    }
+    if (blocking == true) {
+      stopMoving();
     }
   }
 
@@ -174,6 +173,12 @@ class Player {
     }
   }
 
+  void stopMoving() {
+    moveLeft = false;
+    moveRight = false;
+    jump = false;
+  }
+
 
   void movement() {
     //if jump is true and if millis  is less than millis + 100ms then jump
@@ -184,14 +189,16 @@ class Player {
     }
     //update movement for x 
     if (moveLeft) {
-      if(touching != 1){
-      x -= dx;
+      direction = 0;
+      if (touching != 1) {
+        x -= dx;
       }
     }
 
     if (moveRight) {
-      if(touching != 2){
-      x += dx;
+      direction = 1;
+      if (touching != 2) {
+        x += dx;
       }
     }
   }
@@ -210,57 +217,48 @@ class Player {
       hitting = false;
     }
   }
-  
-  void blockCheck(Player otherPlayer){
-    if (blocking == true ){ 
+
+  void blockCheck(Player otherPlayer) {
+    if (blocking == true ) { 
       attack = 0;
-      if(direction == 0 && x > otherPlayer.x){
+      if (direction == 0 && x > otherPlayer.x) {
         otherPlayer.attack = .75;
       }
-      if(direction == 1 && x < otherPlayer.x){
+      if (direction == 1 && x < otherPlayer.x) {
         otherPlayer.attack = .75;
       }
-    }
-    else {
+    } else {
       otherPlayer.attack = 2.5;
     }
   }
-  
-  
-  void collisionDetection(Player otherPlayer){
-    
-    if(x + 100 == otherPlayer.x){
-      if(y-200 < otherPlayer.y && jump == true){
-       touching = 0;
-      otherPlayer.touching = 0; 
+
+
+  void collisionDetection(Player otherPlayer) {
+
+    if (x + 100 == otherPlayer.x) {
+      if (y-200 < otherPlayer.y && jump == true) {
+        touching = 0;
+        otherPlayer.touching = 0;
+      } else {
+        touching = 2;
+        otherPlayer.touching = 1;
       }
-      else{
-      touching = 2;
-      otherPlayer.touching = 1;
+    } else if (x - 100 == otherPlayer.x) {
+      if (y - 200 < otherPlayer.y && jump == true) {
+        touching = 0;
+        otherPlayer.touching = 0;
+      } else {
+        touching = 1;
+        otherPlayer.touching = 2;
       }
-      
-    }
-    else if(x - 100 == otherPlayer.x){
-      if(y - 200 < otherPlayer.y && jump == true){
+    } else {
       touching = 0;
       otherPlayer.touching = 0;
-      }
-      else{
-      touching = 1;
-      otherPlayer.touching = 2;  
-      }
-      
     }
-    else{
-      touching = 0;
-      otherPlayer.touching = 0;
-      
-    }
-    
   }
-  
-  
-  
+
+
+
 
   void playerFunc(Player otherPlayer) {
     //take in other player's data
@@ -272,7 +270,6 @@ class Player {
     blockCheck(otherPlayer);
     hitting(otherPlayer);
     gravity();
-
   }
 
   void display() {
@@ -286,7 +283,7 @@ class Player {
       // counter++;
       // counter = counter % currentPlayerAnimation.narutoAnimationMoveLeft.length;
 
-      
+
 
       fill(252, 188, 40);
       rect(x, y, 100, 200);
@@ -299,7 +296,7 @@ class Player {
         rect(x+50, y, 50, 50);
       }
     }
-    
+
     if (player == 2) {
       fill(0, 34, 160);
       rect(x, y, 100, 200);

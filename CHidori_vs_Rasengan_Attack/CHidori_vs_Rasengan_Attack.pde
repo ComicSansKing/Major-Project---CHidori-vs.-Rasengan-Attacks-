@@ -1,6 +1,6 @@
-//Paired Programming Assignment
+//Major Project
 
-//Evan, Talon, and Gavin
+//Evan and Talon
 //Button code taken from bouncingBallDemo
 //Known bugs: back button does not yet work
 
