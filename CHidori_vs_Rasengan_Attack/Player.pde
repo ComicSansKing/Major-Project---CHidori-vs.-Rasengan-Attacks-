@@ -73,15 +73,19 @@ class Player {
           timeOfJump = millis()+100;
           jump = true;
         }
-      }
-      if (key == 'a'|| key == 'A') {
-        moveLeft = true;
-        animationStance = 1;
-      }
 
-      if (key == 'd'|| key == 'D') {
-        moveRight = true;
-        animationStance = 0;
+
+        if (key == 'a'|| key == 'A') {
+          moveLeft = true;
+          animationStance = 1;
+        }
+
+        if (key == 'd'|| key == 'D') {
+
+
+          moveRight = true;
+          animationStance = 0;
+        }
       }
       if (key == 'g'|| key == 'G') {
         blocking = true;
@@ -96,10 +100,15 @@ class Player {
         }
       }
       if (keyCode == LEFT) {
+
+
+
         moveLeft = true;
         animationStance = 1;
       }
+
       if (keyCode == RIGHT) {
+
         moveRight = true;
         animationStance = 0;
       }
@@ -179,7 +188,6 @@ class Player {
     jump = false;
   }
 
-
   void movement() {
     //if jump is true and if millis  is less than millis + 100ms then jump
     if (jump) {
@@ -223,9 +231,10 @@ class Player {
       attack = 0;
       if (direction == 0 && x > otherPlayer.x) {
         otherPlayer.attack = .75;
-      }
-      if (direction == 1 && x < otherPlayer.x) {
+      } else if (direction == 1 && x < otherPlayer.x) {
         otherPlayer.attack = .75;
+      } else {
+        otherPlayer.attack = 2.5;
       }
     } else {
       otherPlayer.attack = 2.5;
@@ -236,7 +245,7 @@ class Player {
   void collisionDetection(Player otherPlayer) {
 
     if (x + 100 == otherPlayer.x) {
-      if (y-200 < otherPlayer.y && jump == true) {
+      if (y + 100 < otherPlayer.y - 100 && jump == true) {
         touching = 0;
         otherPlayer.touching = 0;
       } else {
@@ -244,7 +253,7 @@ class Player {
         otherPlayer.touching = 1;
       }
     } else if (x - 100 == otherPlayer.x) {
-      if (y - 200 < otherPlayer.y && jump == true) {
+      if (y + 100 < otherPlayer.y - 100 && jump == true) {
         touching = 0;
         otherPlayer.touching = 0;
       } else {
@@ -254,6 +263,14 @@ class Player {
     } else {
       touching = 0;
       otherPlayer.touching = 0;
+    }
+    
+    if((x+50 < otherPlayer.x+50 && x-50 < otherPlayer.x+50 ) || x-50 > otherPlayer.x-50)  && y + 100 <= otherPlayer.y - 100){
+      println("fucking normies");
+
+       x+=5;
+       y-=10;
+      
     }
   }
 
@@ -265,9 +282,10 @@ class Player {
     //gravity, movement, and .display applied to self
     collisionDetection(otherPlayer);
     currentPlayerHealth.display();
+    blockCheck(otherPlayer);
     movement();
     death();
-    blockCheck(otherPlayer);
+
     hitting(otherPlayer);
     gravity();
   }
