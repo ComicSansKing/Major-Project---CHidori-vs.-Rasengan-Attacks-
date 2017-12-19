@@ -19,10 +19,12 @@ class Player {
   float block = 0;
 
 
+
   //boolean
   boolean jump, moveLeft, moveRight;
   boolean hitting;
   boolean blocking;
+  boolean bounce;
   //classes
   HP currentPlayerHealth;
   Attack currentPlayerAttack;
@@ -264,13 +266,24 @@ class Player {
       touching = 0;
       otherPlayer.touching = 0;
     }
-    
-    if((x+50 < otherPlayer.x+50 && x-50 < otherPlayer.x+50 ) || x-50 > otherPlayer.x-50)  && y + 100 <= otherPlayer.y - 100){
-      println("fucking normies");
 
-       x+=5;
-       y-=10;
-      
+    if ((x+50 <= otherPlayer.x+50 && x+50 >= otherPlayer.x-50 && y + 100 <= otherPlayer.y && y + 100 >= otherPlayer.y-100 || bounce)||(x-50 >= otherPlayer.x-50 && x-50 <= otherPlayer.x+50 && y + 100 <= otherPlayer.y && y + 100 >= otherPlayer.y-100 || bounce)) {
+      bounce = true;
+      if (direction == 0) {
+        x-=5;
+        y-=5;
+      }
+      if (direction == 1) {
+        x+=5; 
+        y-=5;
+      }
+      if(y+100 < otherPlayer.y-100){
+        bounce = false;
+    } 
+    }
+    else {
+      bounce = false; 
+      gravity = .2;
     }
   }
 
