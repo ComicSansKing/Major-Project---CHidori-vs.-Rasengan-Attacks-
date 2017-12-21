@@ -43,7 +43,6 @@ class Player {
     death = _death;
     if (player== 1) {
       direction = 1;
-      
     }
     if (player== 2) {
       direction = 0;
@@ -69,9 +68,6 @@ class Player {
 
   void keyPressed() { 
 
-    if (blocking == true) {
-      stopMoving();
-    }
     //movement and jump code for players
     if (player == 1) {
       if (y == 600) {
@@ -80,26 +76,24 @@ class Player {
           timeOfJump = millis()+100;
           jump = true;
         }
+      }
 
 
-        if (key == 'a'|| key == 'A') {
-          moveLeft = true;
-          animationStance = 1;
-        }
+      if (key == 'a'|| key == 'A') {
+        moveLeft = true;
+        animationStance = 1;
+      }
 
-        if (key == 'd'|| key == 'D') {
-
-
-          moveRight = true;
-          animationStance = 0;
-        }
+      if (key == 'd'|| key == 'D') {
+        moveRight = true;
+        animationStance = 0;
       }
       if (key == 'g'|| key == 'G') {
         blocking = true;
         block = 255;
       }
     }
-    else if (player == 2) {
+    if (player == 2) {
       if (keyCode == UP) {
         if (y == 600) {
           timeOfJump = millis()+100;
@@ -121,7 +115,12 @@ class Player {
         block = 255;
       }
     }
+
+    if (blocking == true) {
+      stopMoving();
+    }
   }
+
 
   void keyReleased() {
     //when any key released set any movement to false
@@ -132,7 +131,7 @@ class Player {
         }
       }
 
-      if (key == 'a' || key == 'A') {
+      if (key == 'a'|| key == 'A') {
         moveLeft = false;
       }
 
@@ -148,7 +147,7 @@ class Player {
         block = 0;
       }
     }
-    else if (player == 2) {
+    if (player == 2) {
       if (keyCode == UP) {
         if (y == 600) {
           jump = false;
@@ -246,27 +245,31 @@ class Player {
 
 
   void collisionDetection(Player otherPlayer) {
-    if (bounce == false) {
-      if (x + 100 == otherPlayer.x) {
-        if (y+100 < otherPlayer.y-100 && jump == true) {
-          touching = 0;
-          otherPlayer.touching = 0;
-        } else {
-          touching = 2;
-          otherPlayer.touching = 1;
-        }
-      } else if (x - 100 == otherPlayer.x) {
-        if (y+100 < otherPlayer.y-100 && jump == true) {
-          touching = 0;
-          otherPlayer.touching = 0;
-        } else { 
-          touching = 1;
-          otherPlayer.touching = 2;
-        }
-      } else {
+    if (x + 100 == otherPlayer.x || x == otherPlayer.x) {
+
+      if (y+100 < otherPlayer.y-100 && jump == true) {
         touching = 0;
         otherPlayer.touching = 0;
+        println("stoop");
+      } else {
+        touching = 2;
+        otherPlayer.touching = 1;
+        println("badtouch");
       }
+    } else if (x - 100 == otherPlayer.x || x == otherPlayer.x) {
+      if (y+100 < otherPlayer.y-100 && jump == true) {
+        touching = 0;
+        otherPlayer.touching = 0;
+        println("gavinsucks");
+      } else {
+        touching = 1;
+        otherPlayer.touching = 2;
+        println("gavincantfailclasses");
+      }
+    } else if (x - 100 != otherPlayer.x || x != otherPlayer.x) {
+      touching = 0;
+      otherPlayer.touching = 0;
+      println("KYs");
     }
   }
 
@@ -274,31 +277,25 @@ class Player {
     if (((x+50 <= otherPlayer.x+50) && (x+50 >= otherPlayer.x-50) &&(( y + 100 <= otherPlayer.y-100)))||((x-50 >= otherPlayer.x-50) && (x-50 <= otherPlayer.x+50) && ((y + 100 <= otherPlayer.y)))) {
       if (direction == 0) {
         x-=5;
-        y-=25;
+        y-=5;
       }
       if (direction == 1) {
         x+=5; 
-        y-=25;
+        y-=5;
       }
-    } else {
-      bounce = false;
-
     }
   }
-
-
-
 
   void playerFunc(Player otherPlayer) {
     //take in other player's data
     //gravity, movement, and .display applied to self
-    
+    movement();
     currentPlayerHealth.display();
     blockCheck(otherPlayer);
-    
-    headCollision(otherPlayer);
     collisionDetection(otherPlayer);
-    movement();
+    headCollision(otherPlayer);
+
+
     death();
 
     hitting(otherPlayer);

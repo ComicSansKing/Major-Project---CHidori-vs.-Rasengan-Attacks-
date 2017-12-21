@@ -22,8 +22,8 @@ PImage openingBackground, menuBackground, backgroundGameImage, optionsImage;
 Minim minim;
 AudioPlayer menu;
 AudioPlayer buttonSound;
-//players
 
+//players
 Player player1;
 Player player2;
 
@@ -36,8 +36,8 @@ Button back;
 Movie openingMovie;
 
 void setup() {
-  fullScreen();
-  //size(800,800);
+  //fullScreen();
+  size(800,800);
 
   //player health and location set.
   playerHealth = 600;
@@ -46,8 +46,8 @@ void setup() {
   playerY = 600;
 
   //player location set as well as animation
-  player1 = new Player(player1X, playerY, 1, playerHealth, 110,0);
-  player2 = new Player(player2X, playerY, 2, playerHealth, 110,0);
+  player1 = new Player(player1X, playerY, 1, playerHealth, 110, 0);
+  player2 = new Player(player2X, playerY, 2, playerHealth, 110, 0);
 
 
   //loads movie
@@ -113,7 +113,7 @@ void startMenu() {
 
 void draw() {
   //starts states, reset doesn't work yet
-  
+
   reset();
   statePicker();
   deathCheck();
@@ -125,9 +125,7 @@ void reset() {
     stateMenu();
     options.state = 0;
     back.state = 0;
-
   }
-  
 }
 
 
@@ -138,7 +136,6 @@ void statePicker() {
   }  
   if (startGame.state == 1) { //in game
     stateGame();
-   
   } 
   if (options.state == 2) {//options
     stateOptions();
@@ -150,8 +147,8 @@ void statePicker() {
 
   //if any are true then play the sound
   if (startGame.mouseIsOnButton() || options.mouseIsOnButton() || back.mouseIsOnButton()) {
-    if(startGame.state == 0 || options.state == 2){
-    buttonSound.play();
+    if (startGame.state == 0 || options.state == 2) {
+      buttonSound.play();
     }
     //else stop and loop so it restarts
   } else {
@@ -164,11 +161,11 @@ void stateOpening() {
   //loads movie
 
   image(openingMovie, 0, 0, width, height);
-    options.calculator();
-    options.display();
+  options.calculator();
+  options.display();
 
-    startGame.calculator();
-    startGame.display();
+  startGame.calculator();
+  startGame.display();
   //if enough time passes then start menu
   if (millis() > 30500) {
     stateMenu();
@@ -205,22 +202,21 @@ void stateOptions() {
   back.display();
 }
 
-void deathCheck(){
-  if (player1.death == 1){
+void deathCheck() {
+  if (player1.death == 1) {
     background(0, 34, 160);
     textAlign(CENTER);
     fill(255);
     textSize(50);
-    text("Sasuke Wins",width/2,height/2);
+    text("Sasuke Wins", width/2, height/2);
   }
-  if (player2.death == 1){
+  if (player2.death == 1) {
     background(252, 176, 45);
     textAlign(CENTER);
     fill(255);
     textSize(50);
-    text("Naruto Wins",width/2,height/2);
+    text("Naruto Wins", width/2, height/2);
   }
-  
 }
 
 
@@ -242,10 +238,3 @@ void keyReleased() {
   player1.keyReleased(); 
   player2.keyReleased();
 }
-
-
-
-        
-
-    
-  
