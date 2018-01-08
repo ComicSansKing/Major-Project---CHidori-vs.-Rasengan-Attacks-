@@ -1,4 +1,4 @@
-class Player {
+class Player { //<>// //<>// //<>// //<>//
   //data
   //numbers
   float x, y;
@@ -245,36 +245,24 @@ class Player {
 
 
   void collisionDetection(Player otherPlayer) {
-    if (x + 100 == otherPlayer.x || x == otherPlayer.x) {
-
-      if (y+100 < otherPlayer.y-100 && jump == true) {
-        touching = 0;
-        otherPlayer.touching = 0;
-        println("stoop");
-      } else {
+      if (x+50 == otherPlayer.x-50) {
         touching = 2;
         otherPlayer.touching = 1;
-        println("badtouch");
-      }
-    } else if (x - 100 == otherPlayer.x || x == otherPlayer.x) {
-      if (y+100 < otherPlayer.y-100 && jump == true) {
-        touching = 0;
-        otherPlayer.touching = 0;
-        println("gavinsucks");
-      } else {
+            println("2523155150");
+      } else if (x - 50 == otherPlayer.x + 50) {
         touching = 1;
         otherPlayer.touching = 2;
-        println("gavincantfailclasses");
+            println("ffdf");
+      } else {
+        touching = 0;
+        otherPlayer.touching = 0;
+        println("ffdsujhfsuhfsdif");
       }
-    } else if (x - 100 != otherPlayer.x || x != otherPlayer.x) {
-      touching = 0;
-      otherPlayer.touching = 0;
-      println("KYs");
-    }
   }
-
-  void headCollision(Player otherPlayer) { 
-    if (((x+50 <= otherPlayer.x+50) && (x+50 >= otherPlayer.x-50) &&(( y + 100 <= otherPlayer.y-100)))||((x-50 >= otherPlayer.x-50) && (x-50 <= otherPlayer.x+50) && ((y + 100 <= otherPlayer.y)))) {
+    
+    
+   void headCollision(Player otherPlayer) { 
+    if (((x+50 <= otherPlayer.x+50) && (x+50 >= otherPlayer.x-50) &&((y + 100 <= otherPlayer.y - 100)))||((x-50 >= otherPlayer.x-50) && (x-50 <= otherPlayer.x+50) && ((y + 100 <= otherPlayer.y)))) {
       if (direction == 0) {
         x-=5;
         y-=5;
@@ -286,14 +274,18 @@ class Player {
     }
   }
 
+
+
+
   void playerFunc(Player otherPlayer) {
     //take in other player's data
     //gravity, movement, and .display applied to self
     movement();
     currentPlayerHealth.display();
     blockCheck(otherPlayer);
-    collisionDetection(otherPlayer);
     headCollision(otherPlayer);
+    collisionDetection(otherPlayer);
+    println(touching);
 
 
     death();

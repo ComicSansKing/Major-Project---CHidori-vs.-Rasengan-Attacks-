@@ -4,6 +4,7 @@ class Attack {
   float damage;
   float x, y;
   float dx, dy;
+  Player currentPlayer;
 
   //constructor(s)
   Attack( float _x, float _y, float _dx, float _dy) {
@@ -21,4 +22,10 @@ class Attack {
     //if hit take in damage
     health.gotHit(damage);
   }
+  
+ void comboDetector() {
+  if (currentPlayer.hitting == true) {
+   millis
+   
+ }
 }
