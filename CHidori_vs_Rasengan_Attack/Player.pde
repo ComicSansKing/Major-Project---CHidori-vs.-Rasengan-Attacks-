@@ -17,7 +17,11 @@ class Player { //<>// //<>// //<>// //<>//
   int touching = 0;
   float attack = 2.5;
   float block = 0;
-
+  float comboTimer;
+  float comboTimerADV;
+  int comboCounterBasic;
+  int comboCounterADV;
+  int chakra = 100;
 
 
   //boolean
@@ -29,6 +33,7 @@ class Player { //<>// //<>// //<>// //<>//
   HP currentPlayerHealth;
   Attack currentPlayerAttack;
   Animation currentPlayerAnimation;
+  Chakra currentPlayerChakra;
 
   //constructor(s)
   Player(float _x, float _y, int _player, float _health, float _radius, int _death) {
@@ -51,6 +56,7 @@ class Player { //<>// //<>// //<>// //<>//
     currentPlayerHealth = new HP(health, player);
     currentPlayerAttack = new Attack(x, y, dx, dy);
     currentPlayerAnimation = new Animation(player);
+    currentPlayerChakra = new Chakra(chakra, player);
   }
 
   //behaviour
@@ -91,6 +97,7 @@ class Player { //<>// //<>// //<>// //<>//
       if (key == 'g'|| key == 'G') {
         blocking = true;
         block = 255;
+        chakra += 10;
       }
     }
     if (player == 2) {
@@ -138,9 +145,17 @@ class Player { //<>// //<>// //<>// //<>//
       if (key == 'd' || key == 'D') {
         moveRight = false;
       }
+      if(key == 's'|| key == 'S'){
+        comboCounterADV +=1;
+        comboTimerADV = millis()+300;
+      }
+      
       if (key == 'f' || key == 'F') {
         timeOfHit = millis() + 100;
         hitting = true;
+        comboCounterBasic += 1;
+        comboTimer = millis() + 500;
+        comboTimerADV = millis()+300;
       }
       if (key == 'g'|| key == 'G') {
         blocking = false;
@@ -158,11 +173,20 @@ class Player { //<>// //<>// //<>// //<>//
       }
 
       if (keyCode == RIGHT) {
-        moveRight = false;
+        moveRight = false; 
       }
+      
+      if(keyCode == DOWN){
+        comboCounterADV +=1;
+        comboTimerADV = millis()+300;
+      }
+      
       if (key == '0') {
         timeOfHit = millis() + 100;
+        comboTimer = millis() + 500;
         hitting = true;
+        comboCounterBasic += 1;
+        comboTimerADV = millis()+300;
       }
       if (key == '1') {
         blocking = false;
@@ -228,6 +252,35 @@ class Player { //<>// //<>// //<>// //<>//
     }
   }
 
+  void comboDetector() {
+    if (comboTimer >= millis()) {
+      if (comboCounterBasic == 3) {
+        attack = 5;
+      }
+    }
+    if (comboTimer < millis()) {
+      comboCounterBasic = 0;
+      attack = 2.5;
+    }
+    if(comboTimerADV >= millis()){
+      if (comboCounterADV  == 2){
+       if (comboCounterBasic == 2){
+         attack = 10;
+       }
+      }
+      
+    }
+    if (comboTimerADV < millis()) {
+      comboCounterADV = 0;
+      attack = 2.5;
+    }
+    
+    
+  }
+
+
+
+
   void blockCheck(Player otherPlayer) {
     if (blocking == true ) { 
       attack = 0;
@@ -245,23 +298,23 @@ class Player { //<>// //<>// //<>// //<>//
 
 
   void collisionDetection(Player otherPlayer) {
-      if (x+50 == otherPlayer.x-50) {
-        touching = 2;
-        otherPlayer.touching = 1;
-            println("2523155150");
-      } else if (x - 50 == otherPlayer.x + 50) {
-        touching = 1;
-        otherPlayer.touching = 2;
-            println("ffdf");
-      } else {
-        touching = 0;
-        otherPlayer.touching = 0;
-        println("ffdsujhfsuhfsdif");
-      }
+    if (x+50 == otherPlayer.x-50) {
+      touching = 2;
+      otherPlayer.touching = 1;
+      println("2523155150");
+    } else if (x - 50 == otherPlayer.x + 50) {
+      touching = 1;
+      otherPlayer.touching = 2;
+      println("ffdf");
+    } else {
+      touching = 0;
+      otherPlayer.touching = 0;
+      println("ffdsujhfsuhfsdif");
+    }
   }
-    
-    
-   void headCollision(Player otherPlayer) { 
+
+
+  void headCollision(Player otherPlayer) { 
     if (((x+50 <= otherPlayer.x+50) && (x+50 >= otherPlayer.x-50) &&((y + 100 <= otherPlayer.y - 100)))||((x-50 >= otherPlayer.x-50) && (x-50 <= otherPlayer.x+50) && ((y + 100 <= otherPlayer.y)))) {
       if (direction == 0) {
         x-=5;
@@ -286,6 +339,8 @@ class Player { //<>// //<>// //<>// //<>//
     headCollision(otherPlayer);
     collisionDetection(otherPlayer);
     println(touching);
+    comboDetector();
+    currentPlayerChakra.display(chakra);
 
 
     death();

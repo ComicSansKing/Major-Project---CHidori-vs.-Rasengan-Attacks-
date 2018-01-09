@@ -23,9 +23,4 @@ class Attack {
     health.gotHit(damage);
   }
   
- void comboDetector() {
-  if (currentPlayer.hitting == true) {
-   millis
-   
- }
 }

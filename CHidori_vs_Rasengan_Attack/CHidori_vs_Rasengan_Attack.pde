@@ -36,8 +36,8 @@ Button back;
 Movie openingMovie;
 
 void setup() {
-  //fullScreen();
-  size(800,800);
+  fullScreen();
+  //size(800,800);
 
   //player health and location set.
   playerHealth = 600;
