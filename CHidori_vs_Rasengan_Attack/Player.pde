@@ -21,7 +21,10 @@ class Player { //<>// //<>// //<>// //<>//
   float comboTimerADV;
   int comboCounterBasic;
   int comboCounterADV;
-  int chakra = 100;
+
+  float currentChakraPosition;
+  int chakra;
+  FloatList chakraShot = new FloatList();
 
 
   //boolean
@@ -68,8 +71,18 @@ class Player { //<>// //<>// //<>// //<>//
     //if the distance is less than or equal to radii then attack other player
     if (distanceBetweenPlayers <= sumOfRadii) {
       currentPlayerAttack.meleeAttack(otherPlayer.currentPlayerHealth, attack);
+
+      chakra += 3;
+      otherPlayer.chakra += 5;
+      if (chakra > 300) {
+        chakra = 300;
+      }
+      if (otherPlayer.chakra > 300) {
+        otherPlayer.chakra = 300;
+      }
     }
   }
+
 
 
   void keyPressed() { 
@@ -97,7 +110,6 @@ class Player { //<>// //<>// //<>// //<>//
       if (key == 'g'|| key == 'G') {
         blocking = true;
         block = 255;
-        chakra += 10;
       }
     }
     if (player == 2) {
@@ -145,11 +157,11 @@ class Player { //<>// //<>// //<>// //<>//
       if (key == 'd' || key == 'D') {
         moveRight = false;
       }
-      if(key == 's'|| key == 'S'){
+      if (key == 's'|| key == 'S') {
         comboCounterADV +=1;
         comboTimerADV = millis()+300;
       }
-      
+
       if (key == 'f' || key == 'F') {
         timeOfHit = millis() + 100;
         hitting = true;
@@ -160,6 +172,11 @@ class Player { //<>// //<>// //<>// //<>//
       if (key == 'g'|| key == 'G') {
         blocking = false;
         block = 0;
+      }
+      if (key == 'q' || key ==  'Q') {
+        if (chakra == 300) {
+          chakraSpecial();
+        }
       }
     }
     if (player == 2) {
@@ -173,14 +190,14 @@ class Player { //<>// //<>// //<>// //<>//
       }
 
       if (keyCode == RIGHT) {
-        moveRight = false; 
+        moveRight = false;
       }
-      
-      if(keyCode == DOWN){
+
+      if (keyCode == DOWN) {
         comboCounterADV +=1;
         comboTimerADV = millis()+300;
       }
-      
+
       if (key == '0') {
         timeOfHit = millis() + 100;
         comboTimer = millis() + 500;
@@ -191,6 +208,11 @@ class Player { //<>// //<>// //<>// //<>//
       if (key == '1') {
         blocking = false;
         block = 0;
+      }
+      if (key == '2') {
+        if (chakra == 300) {
+          chakraSpecial();
+        }
       }
     }
   }
@@ -262,23 +284,29 @@ class Player { //<>// //<>// //<>// //<>//
       comboCounterBasic = 0;
       attack = 2.5;
     }
-    if(comboTimerADV >= millis()){
-      if (comboCounterADV  == 2){
-       if (comboCounterBasic == 2){
-         attack = 10;
-       }
+    if (comboTimerADV >= millis()) {
+      if (comboCounterADV  == 2) {
+        if (comboCounterBasic == 2) {
+          attack = 10;
+        }
       }
-      
     }
     if (comboTimerADV < millis()) {
       comboCounterADV = 0;
       attack = 2.5;
     }
-    
-    
   }
 
-
+  void chakraSpecial() {
+    chakraShot.append(player);
+    currentChakraPosition = x;
+    if (chakraShot.size() > 0) {
+      for (int counter=0; counter<chakraShot.size(); counter++) {
+        fill(0);
+        rect(chakraShot.get(counter), chakraShot.get(counter), 20, 20);
+      }
+    }
+  }
 
 
   void blockCheck(Player otherPlayer) {
@@ -301,15 +329,12 @@ class Player { //<>// //<>// //<>// //<>//
     if (x+50 == otherPlayer.x-50) {
       touching = 2;
       otherPlayer.touching = 1;
-      println("2523155150");
     } else if (x - 50 == otherPlayer.x + 50) {
       touching = 1;
       otherPlayer.touching = 2;
-      println("ffdf");
     } else {
       touching = 0;
       otherPlayer.touching = 0;
-      println("ffdsujhfsuhfsdif");
     }
   }
 
@@ -338,13 +363,9 @@ class Player { //<>// //<>// //<>// //<>//
     blockCheck(otherPlayer);
     headCollision(otherPlayer);
     collisionDetection(otherPlayer);
-    println(touching);
     comboDetector();
     currentPlayerChakra.display(chakra);
-
-
     death();
-
     hitting(otherPlayer);
     gravity();
   }
