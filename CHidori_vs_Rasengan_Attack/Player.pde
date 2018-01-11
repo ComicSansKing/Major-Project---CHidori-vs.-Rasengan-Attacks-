@@ -21,6 +21,8 @@ class Player { //<>// //<>// //<>// //<>//
   float comboTimerADV;
   int comboCounterBasic;
   int comboCounterADV;
+  boolean chakraOn = false;
+  int chakraDirection;
 
   float currentChakraPosition;
   int chakra;
@@ -175,7 +177,15 @@ class Player { //<>// //<>// //<>// //<>//
       }
       if (key == 'q' || key ==  'Q') {
         if (chakra == 300) {
-          chakraSpecial();
+          currentChakraPosition = x;
+          chakraOn = true;
+          chakra = 0;
+          if (direction == 0) {
+            chakraDirection = 0;
+          }
+          if (direction == 1) {
+            chakraDirection = 1;
+          }
         }
       }
     }
@@ -211,7 +221,15 @@ class Player { //<>// //<>// //<>// //<>//
       }
       if (key == '2') {
         if (chakra == 300) {
-          chakraSpecial();
+          currentChakraPosition = x;
+          chakraOn = true;
+          chakra = 0;
+          if (direction == 0) {
+            chakraDirection = 0;
+          }
+          if (direction == 1) {
+            chakraDirection = 1;
+          }
         }
       }
     }
@@ -297,14 +315,25 @@ class Player { //<>// //<>// //<>// //<>//
     }
   }
 
-  void chakraSpecial() {
-    chakraShot.append(player);
-    currentChakraPosition = x;
-    if (chakraShot.size() > 0) {
-      for (int counter=0; counter<chakraShot.size(); counter++) {
-        fill(0);
-        rect(chakraShot.get(counter), chakraShot.get(counter), 20, 20);
+  void chakraSpecial(Player otherPlayer) {
+    float distanceFromChakraBall = dist(currentChakraPosition, y, otherPlayer.x, otherPlayer.y);
+    float chakraRadius = 10 + otherPlayer.radius;
+    if (chakraOn) {
+      chakraShot.append(player);
+      if (chakraShot.size() > 0) {
+        if (distanceFromChakraBall <= chakraRadius) {
+          otherPlayer.currentPlayerHealth.gotHit(16);
+        }
+        if (chakraDirection == 0) {
+          currentChakraPosition -= 20;
+        }
+        if (chakraDirection == 1) {
+          currentChakraPosition += 20;
+        }
+        rect(currentChakraPosition, 600, 50, 50);
       }
+
+      
     }
   }
 
@@ -359,12 +388,14 @@ class Player { //<>// //<>// //<>// //<>//
     //take in other player's data
     //gravity, movement, and .display applied to self
     movement();
+
     currentPlayerHealth.display();
     blockCheck(otherPlayer);
     headCollision(otherPlayer);
     collisionDetection(otherPlayer);
     comboDetector();
     currentPlayerChakra.display(chakra);
+    chakraSpecial(otherPlayer); 
     death();
     hitting(otherPlayer);
     gravity();
