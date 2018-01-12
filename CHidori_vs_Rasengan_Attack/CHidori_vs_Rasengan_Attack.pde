@@ -117,6 +117,7 @@ void draw() {
   reset();
   statePicker();
   deathCheck();
+  
 }
 
 void reset() {
@@ -193,6 +194,7 @@ void stateGame() {
   player2.playerFunc(player1);
   player1.display();
   player2.display();
+  ground();
 }
 
 void stateOptions() {
@@ -218,7 +220,13 @@ void deathCheck() {
     text("Naruto Wins", width/2, height/2);
   }
 }
-
+  
+  void ground(){
+   rectMode(CORNER);
+   fill(11, 81, 2);
+   rect(0,700,width,height);
+   rectMode(CENTER);
+  }
 
 void mousePressed() {
   //if mouse pressed call button

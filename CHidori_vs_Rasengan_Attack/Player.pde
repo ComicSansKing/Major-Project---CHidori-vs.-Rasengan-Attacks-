@@ -23,6 +23,8 @@ class Player { //<>// //<>// //<>// //<>//
   int comboCounterADV;
   boolean chakraOn = false;
   int chakraDirection;
+  int knockBackValue;
+  float knockbackTimer;
 
   float currentChakraPosition;
   int chakra;
@@ -51,10 +53,10 @@ class Player { //<>// //<>// //<>// //<>//
     radius = _radius;
     player = _player;
     death = _death;
-    if (player== 1) {
+    if (player == 1) {
       direction = 1;
     }
-    if (player== 2) {
+    if (player == 2) {
       direction = 0;
     }
     //calll current health and attack for each player, updates per player
@@ -71,16 +73,19 @@ class Player { //<>// //<>// //<>// //<>//
     float sumOfRadii = radius + otherPlayer.radius;
 
     //if the distance is less than or equal to radii then attack other player
-    if (distanceBetweenPlayers <= sumOfRadii) {
-      currentPlayerAttack.meleeAttack(otherPlayer.currentPlayerHealth, attack);
+    if ((direction == 1 && otherPlayer.direction == 0) || (direction == 0 && otherPlayer.direction == 1) || (direction == 1 && otherPlayer.direction == 1 && x < otherPlayer.x) || (direction == 0 && otherPlayer.direction == 0 && x > otherPlayer.x)) {
+      if (distanceBetweenPlayers <= sumOfRadii) {
+        currentPlayerAttack.meleeAttack(otherPlayer.currentPlayerHealth, attack);
+        knockback(otherPlayer);
 
-      chakra += 3;
-      otherPlayer.chakra += 5;
-      if (chakra > 300) {
-        chakra = 300;
-      }
-      if (otherPlayer.chakra > 300) {
-        otherPlayer.chakra = 300;
+        chakra += 3;
+        otherPlayer.chakra += 5;
+        if (chakra > 300) {
+          chakra = 300;
+        }
+        if (otherPlayer.chakra > 300) {
+          otherPlayer.chakra = 300;
+        }
       }
     }
   }
@@ -332,8 +337,6 @@ class Player { //<>// //<>// //<>// //<>//
         }
         rect(currentChakraPosition, 600, 50, 50);
       }
-
-      
     }
   }
 
@@ -350,6 +353,29 @@ class Player { //<>// //<>// //<>// //<>//
       }
     } else {
       otherPlayer.attack = 2.5;
+    }
+  }
+
+  void knockback(Player otherPlayer) {
+    if ((direction == 0 && otherPlayer.direction == 1) || (direction == 0 && otherPlayer.direction == 0)) {
+      otherPlayer.knockbackTimer = millis() + 500;
+      if (otherPlayer.knockbackTimer > millis()) {
+        if (otherPlayer.blocking) { 
+          otherPlayer.x-=2.5;
+        } else {
+          otherPlayer.x-=10;
+        }
+      }
+    }
+    if ((direction == 1 && otherPlayer.direction == 0) || (direction == 1 && otherPlayer.direction == 1)) {
+      otherPlayer.knockbackTimer = millis() + 500;
+      if (otherPlayer.knockbackTimer > millis()) {
+        if (otherPlayer.blocking) { 
+          otherPlayer.x+=2.5;
+        } else {
+          otherPlayer.x+=10;
+        }
+      }
     }
   }
 
@@ -381,6 +407,14 @@ class Player { //<>// //<>// //<>// //<>//
     }
   }
 
+  void border() {
+    if (x+50 > width) {
+      x = width - 50;
+    }
+    if (x-50 < 0) {
+      x = 0 + 50;
+    }
+  }
 
 
 
@@ -399,6 +433,7 @@ class Player { //<>// //<>// //<>// //<>//
     death();
     hitting(otherPlayer);
     gravity();
+    border();
   }
 
   void display() {

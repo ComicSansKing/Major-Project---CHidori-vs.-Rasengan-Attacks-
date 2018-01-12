@@ -59,5 +59,11 @@ class Animation {
         narutoAnimationMoveLeft[frame] = loadImage("Naruto/AnimationMoveLeft/" + frame + ".png");
       }
     }
+      if (player == 2) {
+      for (int frame = 0; frame < sasukeAnimationMoveLeft.length; frame++) {
+        sasukeAnimationMoveLeft[frame] = loadImage("Sasuke/AnimationMoveLeft/" + frame + ".png");
+      }
+      }
+    
   }
 }
