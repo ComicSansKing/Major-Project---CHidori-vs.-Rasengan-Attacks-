@@ -8,7 +8,7 @@ class Attack {
 
   //constructor(s)
   Attack( float _x, float _y, float _dx, float _dy) {
-     
+
     x = _x;
     y = _y;
     dx = _dx;
@@ -16,11 +16,10 @@ class Attack {
   }
 
   //behaviour
-  void meleeAttack(HP health,float damage) {
+  void meleeAttack(HP health, float damage) {
     fill(255, 0, 0);
     rectMode(CENTER);
     //if hit take in damage
     health.gotHit(damage);
   }
-  
 }

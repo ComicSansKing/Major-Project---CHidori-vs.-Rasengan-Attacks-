@@ -22,7 +22,7 @@ class Chakra {
       fill(0);
       rect(width/14, height/15+10, 300, 15);
 
-     fill(137, 182, 255);
+      fill(137, 182, 255);
 
       rect(width/14, height/15+10, chakra, 15);
     }

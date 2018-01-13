@@ -2,7 +2,7 @@
 
 //Evan and Talon
 //Button code taken from bouncingBallDemo
-//Known bugs: back button does not yet work
+//Known bugs: collision 
 
 import processing.video.*;
 import ddf.minim.*;
@@ -22,6 +22,7 @@ PImage openingBackground, menuBackground, backgroundGameImage, optionsImage;
 Minim minim;
 AudioPlayer menu;
 AudioPlayer buttonSound;
+AudioPlayer gameMusic;
 
 //players
 Player player1;
@@ -68,13 +69,14 @@ void setup() {
   //creates button locations
   startGame = new Button (width/1.5, height/2.5, 0);
   options = new Button(width/1.5, (height/2.5 + height/4), 1);
-  back = new Button(width/2.75, (height/2 + height/4), 2);
+  back = new Button(width/2.75, height/2, 2);
 
   //loads sounds
   minim = new Minim(this);
   menu = minim.loadFile("Menu/menu.mp3");
   buttonSound = minim.loadFile("Menu/buttonSound.mp3");
   buttonSound.setGain(30);
+  gameMusic = minim.loadFile("Menu/game.mp3");
 
   //starts movie function
   playMovie();
@@ -117,7 +119,6 @@ void draw() {
   reset();
   statePicker();
   deathCheck();
-  
 }
 
 void reset() {
@@ -190,6 +191,7 @@ void stateGame() {
   //sets background, stops music, and calls players
   background(backgroundGameImage);
   stopMenuMusic();
+  gameMusic.play();
   player1.playerFunc(player2);
   player2.playerFunc(player1);
   player1.display();
@@ -206,6 +208,7 @@ void stateOptions() {
 
 void deathCheck() {
   if (player1.death == 1) {
+    gameMusic.pause();
     background(0, 34, 160);
     textAlign(CENTER);
     fill(255);
@@ -213,6 +216,7 @@ void deathCheck() {
     text("Sasuke Wins", width/2, height/2);
   }
   if (player2.death == 1) {
+    gameMusic.pause();
     background(252, 176, 45);
     textAlign(CENTER);
     fill(255);
@@ -220,13 +224,13 @@ void deathCheck() {
     text("Naruto Wins", width/2, height/2);
   }
 }
-  
-  void ground(){
-   rectMode(CORNER);
-   fill(11, 81, 2);
-   rect(0,700,width,height);
-   rectMode(CENTER);
-  }
+
+void ground() {
+  rectMode(CORNER);
+  fill(11, 81, 2);
+  rect(0, 700, width, height);
+  rectMode(CENTER);
+}
 
 void mousePressed() {
   //if mouse pressed call button
