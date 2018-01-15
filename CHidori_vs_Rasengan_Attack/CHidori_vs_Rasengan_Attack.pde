@@ -43,7 +43,7 @@ void setup() {
   //player health and location set.
   playerHealth = 600;
   player1X = 100;
-  player2X = 1000;
+  player2X = 1600;
   playerY = 600;
 
   //player location set as well as animation
@@ -228,7 +228,7 @@ void deathCheck() {
 void ground() {
   rectMode(CORNER);
   fill(11, 81, 2);
-  rect(0, 700, width, height);
+  rect(0, 650, width, height);
   rectMode(CENTER);
 }
 

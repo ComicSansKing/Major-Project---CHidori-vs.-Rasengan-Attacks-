@@ -6,6 +6,7 @@ class Attack {
   float dx, dy;
   Player currentPlayer;
 
+
   //constructor(s)
   Attack( float _x, float _y, float _dx, float _dy) {
 
@@ -21,5 +22,6 @@ class Attack {
     rectMode(CENTER);
     //if hit take in damage
     health.gotHit(damage);
+
   }
 }
