@@ -102,7 +102,7 @@ class Player { //<>// //<>// //<>// //<>//
       if (y == 600) {
         if (key == 'w'|| key == 'W') {
           //add 100ms to millis and set jump to true
-           timeOfJump = millis()+100;
+          timeOfJump = millis()+100;
           jump = true;
         }
       }
@@ -331,7 +331,7 @@ class Player { //<>// //<>// //<>// //<>//
   void chakraSpecial(Player otherPlayer) {
     float distanceFromChakraBall = dist(currentChakraPosition, y, otherPlayer.x, otherPlayer.y);
     float chakraRadius = 10 + otherPlayer.radius;
-    if (currentChakraPosition > width || currentChakraPosition < 0){
+    if (currentChakraPosition > width || currentChakraPosition < 0) {
       chakraOn = false;
     }
     if (chakraOn) {
@@ -346,47 +346,47 @@ class Player { //<>// //<>// //<>// //<>//
         if (chakraDirection == 1) {
           currentChakraPosition += 20;
         }        
-    
-    if(player == 2){
-        if (direction == 1 && chakraOn ) {
-        currentPlayerAnimation.chakraRight();
-        imageMode(CENTER);
-        image(currentPlayerAnimation.sasukeAnimationChakraRight[counter], currentChakraPosition, 600, 100, 100);
-        if (frameCount % 2 == 0) {
-          counter++;
-          counter = counter % currentPlayerAnimation.sasukeAnimationChakraRight.length;
+
+        if (player == 2) {
+          if (direction == 1 && chakraOn ) {
+            currentPlayerAnimation.chakraRight();
+            imageMode(CENTER);
+            image(currentPlayerAnimation.sasukeAnimationChakraRight[counter], currentChakraPosition, 600, 100, 100);
+            if (frameCount % 2 == 0) {
+              counter++;
+              counter = counter % currentPlayerAnimation.sasukeAnimationChakraRight.length;
+            }
+          }
+          if (direction == 0 && chakraOn) {
+            currentPlayerAnimation.chakraLeft();
+            imageMode(CENTER);
+            image(currentPlayerAnimation.sasukeAnimationChakraLeft[counter], currentChakraPosition, 600, 100, 100);
+            if (frameCount % 2 == 0) {
+              counter++;
+              counter = counter % currentPlayerAnimation.sasukeAnimationChakraLeft.length;
+            }
+          }
         }
-      }
-      if (direction == 0 && chakraOn) {
-        currentPlayerAnimation.chakraLeft();
-        imageMode(CENTER);
-        image(currentPlayerAnimation.sasukeAnimationChakraLeft[counter], currentChakraPosition, 600, 100, 100);
-        if (frameCount % 2 == 0) {
-          counter++;
-          counter = counter % currentPlayerAnimation.sasukeAnimationChakraLeft.length;
+        if (player == 1) {
+          if (direction == 1 && chakraOn ) {
+            currentPlayerAnimation.chakraRight();
+            imageMode(CENTER);
+            image(currentPlayerAnimation.narutoAnimationChakraRight[counter], currentChakraPosition, 600, 100, 100);
+            if (frameCount % 2 == 0) {
+              counter++;
+              counter = counter % currentPlayerAnimation.narutoAnimationChakraRight.length;
+            }
+          }
+          if (direction == 0 && chakraOn) {
+            currentPlayerAnimation.chakraLeft();
+            imageMode(CENTER);
+            image(currentPlayerAnimation.narutoAnimationChakraLeft[counter], currentChakraPosition, 600, 100, 100);
+            if (frameCount % 2 == 0) {
+              counter++;
+              counter = counter % currentPlayerAnimation.narutoAnimationChakraLeft.length;
+            }
+          }
         }
-      }
-    }
-    if(player == 1){
-        if (direction == 1 && chakraOn ) {
-        currentPlayerAnimation.chakraRight();
-        imageMode(CENTER);
-        image(currentPlayerAnimation.narutoAnimationChakraRight[counter], currentChakraPosition, 600, 100, 100);
-        if (frameCount % 2 == 0) {
-          counter++;
-          counter = counter % currentPlayerAnimation.narutoAnimationChakraRight.length;
-        }
-      }
-      if (direction == 0 && chakraOn) {
-        currentPlayerAnimation.chakraLeft();
-        imageMode(CENTER);
-        image(currentPlayerAnimation.narutoAnimationChakraLeft[counter], currentChakraPosition, 600, 100, 100);
-        if (frameCount % 2 == 0) {
-          counter++;
-          counter = counter % currentPlayerAnimation.narutoAnimationChakraLeft.length;
-        }
-      }
-    }
       }
     }
   }
@@ -532,7 +532,7 @@ class Player { //<>// //<>// //<>// //<>//
         }
       }
       //attack left
-       if (direction == 0 && hitting && !jump && y == 600 && !hurt) {
+      if (direction == 0 && hitting && !jump && y == 600 && !hurt) {
         currentPlayerAnimation.attackLeft();
         imageMode(CENTER);
         image(currentPlayerAnimation.narutoAnimationAttackLeft[counter], x, y, 100, 100);
@@ -542,7 +542,7 @@ class Player { //<>// //<>// //<>// //<>//
         }
       }
       //attack right
-       if (direction == 1 && !jump && y == 600 && hitting && !hurt) {
+      if (direction == 1 && !jump && y == 600 && hitting && !hurt) {
         currentPlayerAnimation.attackRight();
         imageMode(CENTER);
         image(currentPlayerAnimation.narutoAnimationAttackRight[counter], x, y, 100, 100);
@@ -551,8 +551,8 @@ class Player { //<>// //<>// //<>// //<>//
           counter = counter % currentPlayerAnimation.narutoAnimationAttackRight.length;
         }
       }
-      
-       if (direction == 0 && chakraOn && y == 600 && !hitting && !hurt && chakraTimer > millis()) {
+
+      if (direction == 0 && chakraOn && y == 600 && !hitting && !hurt && chakraTimer > millis()) {
         currentPlayerAnimation.specialLeft();
         imageMode(CENTER);
         image(currentPlayerAnimation.narutoAnimationSpecialLeft[counter], x, y, 100, 100);
@@ -561,7 +561,7 @@ class Player { //<>// //<>// //<>// //<>//
           counter = counter % currentPlayerAnimation.narutoAnimationSpecialLeft.length;
         }
       }
-      
+
       if (direction == 1 && chakraOn && y == 600 && !hitting && !hurt && chakraTimer > millis()) {
         currentPlayerAnimation.specialRight();
         imageMode(CENTER);
@@ -571,8 +571,8 @@ class Player { //<>// //<>// //<>// //<>//
           counter = counter % currentPlayerAnimation.narutoAnimationSpecialRight.length;
         }
       }
-      
-         if (direction == 1 && hurt) {
+
+      if (direction == 1 && hurt) {
         currentPlayerAnimation.damageRight();
         imageMode(CENTER);
         image(currentPlayerAnimation.narutoAnimationDamageRight[counter], x, y, 100, 100);
@@ -581,7 +581,7 @@ class Player { //<>// //<>// //<>// //<>//
           counter = counter % currentPlayerAnimation.narutoAnimationDamageRight.length;
         }
       }
-      
+
       if (direction == 0 && hurt) {
         currentPlayerAnimation.damageLeft();
         imageMode(CENTER);
@@ -591,9 +591,9 @@ class Player { //<>// //<>// //<>// //<>//
           counter = counter % currentPlayerAnimation.narutoAnimationDamageLeft.length;
         }
       }
-      
+
       //jump right
-      if (direction == 1 && jump || y != 600 && jump == false && direction == 1 ) {
+      if (direction == 1 && jump || y != 600 && jump == false && direction == 1 && !hurt ) {
         currentPlayerAnimation.jumpRight();
         imageMode(CENTER);
         if (y != 600 && jump == false && direction == 1) {
@@ -606,9 +606,9 @@ class Player { //<>// //<>// //<>// //<>//
           counter = counter % currentPlayerAnimation.narutoAnimationJumpRight.length;
         }
       }
-      
+
       //jump left
-      if (direction == 0 && jump || y != 600 && jump == false && direction == 0 ) {
+      if (direction == 0 && jump || y != 600 && jump == false && direction == 0 && !hurt  ) {
         currentPlayerAnimation.jumpLeft();
         imageMode(CENTER);
         if (y != 600 && jump == false && direction == 0) {
@@ -622,8 +622,8 @@ class Player { //<>// //<>// //<>// //<>//
         }
       }
     }
-    
-        if (player == 2) {
+
+    if (player == 2) {
       //move left
       if (moveLeft&& jump == false && y == 600 && !hitting && !hurt&& chakraTimer < millis()) {
         currentPlayerAnimation.moveLeft();
@@ -665,7 +665,7 @@ class Player { //<>// //<>// //<>// //<>//
         }
       }
       //attack left
-       if (direction == 0 && hitting && !jump && y == 600 && !hurt) {
+      if (direction == 0 && hitting && !jump && y == 600 && !hurt) {
         currentPlayerAnimation.attackLeft();
         imageMode(CENTER);
         image(currentPlayerAnimation.sasukeAnimationAttackLeft[counter], x, y, 100, 100);
@@ -675,7 +675,7 @@ class Player { //<>// //<>// //<>// //<>//
         }
       }
       //attack right
-       if (direction == 1 && !jump && y == 600 && hitting && !hurt) {
+      if (direction == 1 && !jump && y == 600 && hitting && !hurt) {
         currentPlayerAnimation.attackRight();
         imageMode(CENTER);
         image(currentPlayerAnimation.sasukeAnimationAttackRight[counter], x, y, 100, 100);
@@ -684,7 +684,7 @@ class Player { //<>// //<>// //<>// //<>//
           counter = counter % currentPlayerAnimation.sasukeAnimationAttackRight.length;
         }
       }
-      
+
       if (direction == 0 && chakraOn && y == 600 && !hitting && !hurt && chakraTimer > millis()) {
         currentPlayerAnimation.specialLeft();
         imageMode(CENTER);
@@ -694,7 +694,7 @@ class Player { //<>// //<>// //<>// //<>//
           counter = counter % currentPlayerAnimation.sasukeAnimationSpecialLeft.length;
         }
       }
-      
+
       if (direction == 1 && chakraOn && y == 600 && !hitting && !hurt && chakraTimer > millis()) {
         currentPlayerAnimation.specialRight();
         imageMode(CENTER);
@@ -704,7 +704,7 @@ class Player { //<>// //<>// //<>// //<>//
           counter = counter % currentPlayerAnimation.sasukeAnimationSpecialRight.length;
         }
       }
-      
+
       if (direction == 1 && hurt) {
         currentPlayerAnimation.damageRight();
         imageMode(CENTER);
@@ -714,7 +714,7 @@ class Player { //<>// //<>// //<>// //<>//
           counter = counter % currentPlayerAnimation.sasukeAnimationDamageRight.length;
         }
       }
-      
+
       if (direction == 0 && hurt) {
         currentPlayerAnimation.damageLeft();
         imageMode(CENTER);
@@ -724,9 +724,9 @@ class Player { //<>// //<>// //<>// //<>//
           counter = counter % currentPlayerAnimation.sasukeAnimationDamageLeft.length;
         }
       }
-      
+
       //jump right
-      if (direction == 1 && jump || y != 600 && jump == false && direction == 1 ) {
+      if (direction == 1 && jump || y != 600 && jump == false && direction == 1 && !hurt  ) {
         currentPlayerAnimation.jumpRight();
         imageMode(CENTER);
         if (y != 600 && jump == false && direction == 1) {
@@ -739,9 +739,9 @@ class Player { //<>// //<>// //<>// //<>//
           counter = counter % currentPlayerAnimation.sasukeAnimationJumpRight.length;
         }
       }
-      
+
       //jump left
-      if (direction == 0 && jump || y != 600 && jump == false && direction == 0 ) {
+      if (direction == 0 && jump || y != 600 && jump == false && direction == 0 && !hurt  ) {
         currentPlayerAnimation.jumpLeft();
         imageMode(CENTER);
         if (y != 600 && jump == false && direction == 0) {
@@ -754,23 +754,17 @@ class Player { //<>// //<>// //<>// //<>//
           counter = counter % currentPlayerAnimation.sasukeAnimationJumpLeft.length;
         }
       }
-      
-      
-      
-      
     }
 
-    if(blocking){
-     
-      if (player==1){
-        fill(247, 183, 7,50);
+    if (blocking) {
+
+      if (player==1) {
+        fill(247, 183, 7, 50);
       }
-      if (player==2){
-        fill(47, 91, 181,50);
+      if (player==2) {
+        fill(47, 91, 181, 50);
       }
-      ellipse(x,y,125,125);
-      
+      ellipse(x, y, 125, 125);
     }
-   
   }
 }

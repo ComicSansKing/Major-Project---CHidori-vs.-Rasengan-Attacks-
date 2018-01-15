@@ -16,7 +16,7 @@ float movieDuration, movieTime;
 int counter = 0;
 
 //images
-PImage openingBackground, menuBackground, backgroundGameImage, optionsImage;
+PImage openingBackground, menuBackground, backgroundGameImage, optionsImage, groundImage;
 
 //audio
 Minim minim;
@@ -37,8 +37,8 @@ Button back;
 Movie openingMovie;
 
 void setup() {
-  fullScreen();
-  //size(800,800);
+  //fullScreen();
+  size(1600, 900); //do not change, resolution does not scale
 
   //player health and location set.
   playerHealth = 600;
@@ -59,12 +59,14 @@ void setup() {
   openingBackground = loadImage("Menu/Opening Image.jpg");
   menuBackground = loadImage("Menu/Menu Image.jpg");
   optionsImage = loadImage("Menu/optionsImage.png");
+  groundImage = loadImage("Menu/ground.png");
 
   //resizes all backgrounds
   backgroundGameImage.resize(width, height);
   openingBackground.resize(width, height);
   menuBackground.resize(width, height);
   optionsImage.resize(width, height);
+  groundImage.resize(width, 600);
 
   //creates button locations
   startGame = new Button (width/1.5, height/2.5, 0);
@@ -163,11 +165,15 @@ void stateOpening() {
   //loads movie
 
   image(openingMovie, 0, 0, width, height);
-  options.calculator();
-  options.display();
+  
+  //COMMENT BACK IN IF NEEDED DURING PRESENTATION
+  //options.calculator();
+  //options.display();
 
-  startGame.calculator();
-  startGame.display();
+  //startGame.calculator();
+  //startGame.display();
+  
+  
   //if enough time passes then start menu
   if (millis() > 30500) {
     stateMenu();
@@ -226,10 +232,12 @@ void deathCheck() {
 }
 
 void ground() {
-  rectMode(CORNER);
-  fill(11, 81, 2);
-  rect(0, 650, width, height);
-  rectMode(CENTER);
+  //rectMode(CORNER);
+  //fill(11, 81, 2);
+  //rect(0, 650, width, height);
+  //rectMode(CENTER);
+  imageMode(CORNER);
+  image(groundImage, 0, 346);
 }
 
 void mousePressed() {
