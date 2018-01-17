@@ -27,7 +27,7 @@ class Player {  //<>//
   boolean hitting;
   boolean blocking;
   int counter;
-  
+
   //combo
   float comboTimer;
   float comboTimerADV;
@@ -492,7 +492,7 @@ class Player {  //<>//
     rectMode(CENTER);
     if (player == 1) {
       //move left
-      if (moveLeft&& jump == false && y == 600 && !hitting && !hurt) {
+      if (moveLeft&& jump == false && y == 600 && !hitting && !hurt && !moveRight) {
         currentPlayerAnimation.moveLeft();
         imageMode(CENTER);
         image(currentPlayerAnimation.narutoAnimationMoveLeft[counter], x, y, 100, 100);
@@ -502,7 +502,7 @@ class Player {  //<>//
         }
       }
       //move right
-      if (moveRight && jump == false && y == 600 && !hitting && !hurt) {
+      if (moveRight && jump == false && y == 600 && !hitting && !hurt && !moveLeft) {
         currentPlayerAnimation.moveRight();
         imageMode(CENTER);
         image(currentPlayerAnimation.narutoAnimationMoveRight[counter], x, y, 100, 100);
@@ -512,7 +512,7 @@ class Player {  //<>//
         }
       }
       //idle right
-      if (direction == 1 && !moveRight && !jump && y == 600 && !hitting && !hurt) {
+      if (direction == 1 && !moveRight && !jump && y == 600 && !hitting && !hurt || (moveRight && moveLeft && direction == 1)) {
         currentPlayerAnimation.right();
         imageMode(CENTER);
         image(currentPlayerAnimation.narutoAnimationRight[counter], x, y, 100, 100);
@@ -522,7 +522,7 @@ class Player {  //<>//
         }
       }
       //idle left
-      if (direction == 0 && !moveLeft && !jump && y == 600 && !hitting && !hurt) {
+      if (direction == 0 && !moveLeft && !jump && y == 600 && !hitting && !hurt || (moveRight && moveLeft && direction == 0)) {
         currentPlayerAnimation.left();
         imageMode(CENTER);
         image(currentPlayerAnimation.narutoAnimationLeft[counter], x, y, 100, 100);
