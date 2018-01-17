@@ -1,8 +1,14 @@
 //Major Project
+//January 18, 2018
 
 //Evan and Talon
+//Sprite sheets from Neimad
+
 //Button code taken from bouncingBallDemo
 //Known bugs: collision 
+
+//We deserve extra for experts for: extreme undertaking in regards to scale of project. Tried our best to make a true fighting game that includes the elements of any real one. 
+//Many hours were poured into development, and elements such as the player class are impressive in the sense that it uses all other classes within it to do everything it needs.
 
 import processing.video.*;
 import ddf.minim.*;
@@ -13,7 +19,7 @@ int playerHealth;
 float player1X, player2X;
 float playerY;
 float movieDuration, movieTime;
-int counter = 0;
+int counter;
 
 //images
 PImage openingBackground, menuBackground, backgroundGameImage, optionsImage, groundImage;
@@ -37,7 +43,6 @@ Button back;
 Movie openingMovie;
 
 void setup() {
-  //fullScreen();
   size(1600, 900); //do not change, resolution does not scale
 
   //player health and location set.
@@ -163,16 +168,14 @@ void statePicker() {
 
 void stateOpening() {
   //loads movie
-
   image(openingMovie, 0, 0, width, height);
   
-  //COMMENT BACK IN IF NEEDED DURING PRESENTATION
+  //COMMENT BACK IN IF NEEDED DURING PRESENTATION OR IF DEMONSTRATING IN FUTURE YEARS ;)
   //options.calculator();
   //options.display();
-
   //startGame.calculator();
   //startGame.display();
-  
+  //COMMENT BACK IN IF NEEDED DURING PRESENTATION OR IF DEMONSTRATING IN FUTURE YEARS ;)
   
   //if enough time passes then start menu
   if (millis() > 30500) {
@@ -213,6 +216,7 @@ void stateOptions() {
 }
 
 void deathCheck() {
+  //if either play dies, stop the music, change the background, and display win text
   if (player1.death == 1) {
     gameMusic.pause();
     background(0, 34, 160);
@@ -232,10 +236,7 @@ void deathCheck() {
 }
 
 void ground() {
-  //rectMode(CORNER);
-  //fill(11, 81, 2);
-  //rect(0, 650, width, height);
-  //rectMode(CENTER);
+  //calls ground image and sets mode to corner for display
   imageMode(CORNER);
   image(groundImage, 0, 346);
 }

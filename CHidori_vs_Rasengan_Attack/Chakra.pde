@@ -1,5 +1,5 @@
 class Chakra {
-
+  //data
   float chakra;
   int player;
   int x;
@@ -8,6 +8,7 @@ class Chakra {
   Chakra(float _chakra, int _player) {
     chakra = _chakra;
     player = _player;
+    //depending on player change x of bar
     if (player == 1) {
       x = 100;
     }
@@ -16,7 +17,7 @@ class Chakra {
     }
   }
   void display(int chakra) {
-    //draw healthbar, changes colour and size, set to individual players
+    //draw chakra bar, set to individual players
     rectMode(CORNER);
     if (player == 1) {
       fill(0);

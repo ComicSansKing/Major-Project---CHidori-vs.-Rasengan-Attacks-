@@ -1,43 +1,47 @@
-class Player { //<>// //<>// //<>// //<>//
+class Player {  //<>//
   //data
-  //numbers
+  //movement
   float x, y;
   float dx, dy;
-  int player;
-  float health;
   float radius;
-  float speed = 0;
+  float speed;
   float gravity = .2;
   float timeOfJump;
-  float timeOfHit;
-  int animationStance;
-  int death;
-  int counter = 0;
   int direction;
-  int touching = 0;
+  boolean bounce;
+  boolean jump, moveLeft, moveRight;
+
+  //player
+  int player;
+  float health;
+  int death;
+
+  //attack
+  int touching;
   float attack = 2.5;
-  float block = 0;
+  float block;
+  int knockBackValue;
+  float knockbackTimer;
+  boolean hurt;
+  float timeOfHit;
+  boolean hitting;
+  boolean blocking;
+  int counter;
+  
+  //combo
   float comboTimer;
   float comboTimerADV;
   int comboCounterBasic;
   int comboCounterADV;
+
+  //chakra
   boolean chakraOn = false;
   int chakraDirection;
   float chakraTimer;
-  int knockBackValue;
-  float knockbackTimer;
-  boolean hurt;
-
   float currentChakraPosition;
   int chakra;
   FloatList chakraShot = new FloatList();
 
-
-  //boolean
-  boolean jump, moveLeft, moveRight;
-  boolean hitting;
-  boolean blocking;
-  boolean bounce;
   //classes
   HP currentPlayerHealth;
   Attack currentPlayerAttack;
@@ -110,12 +114,10 @@ class Player { //<>// //<>// //<>// //<>//
 
       if (key == 'a'|| key == 'A') {
         moveLeft = true;
-        animationStance = 1;
       }
 
       if (key == 'd'|| key == 'D') {
         moveRight = true;
-        animationStance = 0;
       }
       if (key == 'g'|| key == 'G') {
         blocking = true;
@@ -131,13 +133,11 @@ class Player { //<>// //<>// //<>// //<>//
       }
       if (keyCode == LEFT) {
         moveLeft = true;
-        animationStance = 1;
       }
 
       if (keyCode == RIGHT) {
 
         moveRight = true;
-        animationStance = 0;
       }
       if (key == '1') {
         blocking = true;
@@ -757,7 +757,6 @@ class Player { //<>// //<>// //<>// //<>//
     }
 
     if (blocking) {
-
       if (player==1) {
         fill(247, 183, 7, 50);
       }

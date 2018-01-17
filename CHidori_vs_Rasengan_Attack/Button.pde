@@ -7,7 +7,6 @@ class Button {
   int button;
 
   //constructor(s)
-
   Button(float _x, float _y, int _button) {
     //take in x, y, and button
     x = _x;

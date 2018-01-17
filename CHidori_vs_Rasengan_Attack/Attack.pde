@@ -6,10 +6,8 @@ class Attack {
   float dx, dy;
   Player currentPlayer;
 
-
   //constructor(s)
   Attack( float _x, float _y, float _dx, float _dy) {
-
     x = _x;
     y = _y;
     dx = _dx;

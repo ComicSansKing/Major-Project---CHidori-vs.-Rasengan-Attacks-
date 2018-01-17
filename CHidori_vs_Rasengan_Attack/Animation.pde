@@ -1,9 +1,12 @@
 class Animation {
-  //NONE OF THIS WORKS YET!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  //data
+  //int
   int player;
+
+  //Player
   Player character;
 
-
+  //Arrays
   PImage [] narutoAnimationRight;
   PImage [] narutoAnimationLeft;
   PImage [] narutoAnimationJumpRight;
@@ -34,18 +37,11 @@ class Animation {
   PImage [] sasukeAnimationChakraRight;
   PImage [] sasukeAnimationChakraLeft;
 
-
   //constructor
-
   Animation(int _player) {
-
+    //take in player when calling animation
     player = _player;
-
-
-
- 
   }
-
 
   void moveLeft() {
     sasukeAnimationMoveLeft = new PImage[6];
@@ -61,7 +57,7 @@ class Animation {
       }
     }
   }
-  
+
   void moveRight() {
     sasukeAnimationMoveRight = new PImage[6];
     narutoAnimationMoveRight = new PImage[6];
@@ -76,7 +72,7 @@ class Animation {
       }
     }
   }
-  
+
   void right() {
     sasukeAnimationRight = new PImage[6];
     narutoAnimationRight = new PImage[6];
@@ -91,7 +87,7 @@ class Animation {
       }
     }
   }
-  
+
   void left() {
     sasukeAnimationLeft = new PImage[6];
     narutoAnimationLeft = new PImage[6];
@@ -106,7 +102,7 @@ class Animation {
       }
     }
   }
-  
+
   void jumpRight() {
     sasukeAnimationJumpRight = new PImage[6];
     narutoAnimationJumpRight = new PImage[6];
@@ -121,7 +117,7 @@ class Animation {
       }
     }
   }
-  
+
   void jumpLeft() {
     sasukeAnimationJumpLeft = new PImage[6];
     narutoAnimationJumpLeft = new PImage[6];
@@ -136,7 +132,7 @@ class Animation {
       }
     }
   }
-  
+
   void attackLeft() {
     sasukeAnimationAttackLeft = new PImage[6];
     narutoAnimationAttackLeft = new PImage[6];
@@ -151,7 +147,7 @@ class Animation {
       }
     }
   }
-  
+
   void attackRight() {
     sasukeAnimationAttackRight = new PImage[6];
     narutoAnimationAttackRight = new PImage[6];
@@ -166,7 +162,7 @@ class Animation {
       }
     }
   }
-  
+
   void specialRight() {
     sasukeAnimationSpecialRight = new PImage[6];
     narutoAnimationSpecialRight = new PImage[6];
@@ -181,7 +177,7 @@ class Animation {
       }
     }
   }
-  
+
   void specialLeft() {
     sasukeAnimationSpecialLeft = new PImage[6];
     narutoAnimationSpecialLeft = new PImage[6];
@@ -196,7 +192,7 @@ class Animation {
       }
     }
   }
-  
+
   void damageRight() {
     sasukeAnimationDamageRight = new PImage[6];
     narutoAnimationDamageRight = new PImage[6];
@@ -211,7 +207,7 @@ class Animation {
       }
     }
   }
-  
+
   void damageLeft() {
     sasukeAnimationDamageLeft = new PImage[6];
     narutoAnimationDamageLeft = new PImage[6];
@@ -226,7 +222,7 @@ class Animation {
       }
     }
   }
-  
+
   void chakraRight() {
     sasukeAnimationChakraRight = new PImage[6];
     narutoAnimationChakraRight = new PImage[6];
@@ -241,7 +237,7 @@ class Animation {
       }
     }
   }
-  
+
   void chakraLeft() {
     sasukeAnimationChakraLeft = new PImage[6];
     narutoAnimationChakraLeft = new PImage[6];
@@ -256,5 +252,4 @@ class Animation {
       }
     }
   }
-  
 }

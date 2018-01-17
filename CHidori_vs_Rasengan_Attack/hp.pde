@@ -10,6 +10,7 @@ class HP {
   HP(float _health, int _player) {
     health = _health;
     player = _player;
+    //depending on player change x
     if (player == 1) {
       x = 100;
     }
