@@ -345,6 +345,7 @@ class Player {  //<>//
   }
 
   void chakraSpecial(Player otherPlayer) {
+    //detects if the chakra special is contacting the other player
     float distanceFromChakraBall = dist(currentChakraPosition, y, otherPlayer.x, otherPlayer.y);
     float chakraRadius = 10 + otherPlayer.radius;
     if (currentChakraPosition > width || currentChakraPosition < 0) {
@@ -362,7 +363,8 @@ class Player {  //<>//
         if (chakraDirection == 1) {
           currentChakraPosition += 20;
         }        
-
+        
+        //making the players animation for firing a chakra special player when casting it
         if (player == 2) {
           if (direction == 1 && chakraOn ) {
             currentPlayerAnimation.chakraRight();
@@ -383,6 +385,8 @@ class Player {  //<>//
             }
           }
         }
+        
+        //making the players animation for firing a chakra special player when casting it
         if (player == 1) {
           if (direction == 1 && chakraOn ) {
             currentPlayerAnimation.chakraRight();
@@ -428,6 +432,7 @@ class Player {  //<>//
   }
 
   void knockback(Player otherPlayer) {
+    //making it knockback the otherplayer in the opposite direction when you land a hit
     if ((direction == 0 && otherPlayer.direction == 1) || (direction == 0 && otherPlayer.direction == 0)) {
       otherPlayer.knockbackTimer = millis() + 500;
       if (otherPlayer.knockbackTimer > millis()) {
@@ -512,6 +517,7 @@ class Player {  //<>//
 
   void display() {
     rectMode(CENTER);
+    
     if (player == 1) {
       //move left
       if (moveLeft&& jump == false && y == 600 && !hitting && !hurt && !moveRight) {
@@ -534,7 +540,7 @@ class Player {  //<>//
         }
       }
       //idle right
-      if (direction == 1 && !moveRight && !jump && y == 600 && !hitting && !hurt || (moveRight && moveLeft && direction == 1)) {
+      if (direction == 1 && !moveRight && !jump && y == 600 && !hitting && !hurt || (moveRight && moveLeft && direction == 1) || hitting && blocking && direction == 1) {
         currentPlayerAnimation.right();
         imageMode(CENTER);
         image(currentPlayerAnimation.narutoAnimationRight[counter], x, y, 100, 100);
@@ -544,7 +550,7 @@ class Player {  //<>//
         }
       }
       //idle left
-      if (direction == 0 && !moveLeft && !jump && y == 600 && !hitting && !hurt || (moveRight && moveLeft && direction == 0)) {
+      if (direction == 0 && !moveLeft && !jump && y == 600 && !hitting && !hurt || (moveRight && moveLeft && direction == 0) || hitting && blocking && direction == 0) {
         currentPlayerAnimation.left();
         imageMode(CENTER);
         image(currentPlayerAnimation.narutoAnimationLeft[counter], x, y, 100, 100);
@@ -554,7 +560,7 @@ class Player {  //<>//
         }
       }
       //attack left
-      if (direction == 0 && hitting && !jump && y == 600 && !hurt) {
+      if (direction == 0 && hitting && !jump && y == 600 && !hurt && !blocking) {
         currentPlayerAnimation.attackLeft();
         imageMode(CENTER);
         image(currentPlayerAnimation.narutoAnimationAttackLeft[counter], x, y, 100, 100);
@@ -564,7 +570,7 @@ class Player {  //<>//
         }
       }
       //attack right
-      if (direction == 1 && !jump && y == 600 && hitting && !hurt) {
+      if (direction == 1 && !jump && y == 600 && hitting && !hurt && !blocking) {
         currentPlayerAnimation.attackRight();
         imageMode(CENTER);
         image(currentPlayerAnimation.narutoAnimationAttackRight[counter], x, y, 100, 100);
@@ -574,6 +580,7 @@ class Player {  //<>//
         }
       }
 
+      //rasengan's left animation
       if (direction == 0 && chakraOn && y == 600 && !hitting && !hurt && chakraTimer > millis()) {
         currentPlayerAnimation.specialLeft();
         imageMode(CENTER);
@@ -584,6 +591,7 @@ class Player {  //<>//
         }
       }
 
+      //rasengan's right animation
       if (direction == 1 && chakraOn && y == 600 && !hitting && !hurt && chakraTimer > millis()) {
         currentPlayerAnimation.specialRight();
         imageMode(CENTER);
@@ -594,6 +602,7 @@ class Player {  //<>//
         }
       }
 
+      //player right hurt animation
       if (direction == 1 && hurt) {
         currentPlayerAnimation.damageRight();
         imageMode(CENTER);
@@ -604,6 +613,7 @@ class Player {  //<>//
         }
       }
 
+      //players left hurt animation
       if (direction == 0 && hurt) {
         currentPlayerAnimation.damageLeft();
         imageMode(CENTER);
@@ -647,7 +657,7 @@ class Player {  //<>//
 
     if (player == 2) {
       //move left
-      if (moveLeft&& jump == false && y == 600 && !hitting && !hurt&& chakraTimer < millis()) {
+      if (moveLeft&& jump == false && y == 600 && !hitting && !hurt&& chakraTimer < millis() && !moveRight) {
         currentPlayerAnimation.moveLeft();
         imageMode(CENTER);
         image(currentPlayerAnimation.sasukeAnimationMoveLeft[counter], x, y, 100, 100);
@@ -657,7 +667,7 @@ class Player {  //<>//
         }
       }
       //move right
-      if (moveRight && jump == false && y == 600 && !hitting && !hurt&& chakraTimer < millis()) {
+      if (moveRight && jump == false && y == 600 && !hitting && !hurt&& chakraTimer < millis() && !moveLeft) {
         currentPlayerAnimation.moveRight();
         imageMode(CENTER);
         image(currentPlayerAnimation.sasukeAnimationMoveRight[counter], x, y, 100, 100);
@@ -667,7 +677,7 @@ class Player {  //<>//
         }
       }
       //idle right
-      if (direction == 1 && !moveRight && !jump && y == 600 && !hitting && !hurt&& chakraTimer < millis()) {
+      if (direction == 1 && !moveRight && !jump && y == 600 && !hitting && !hurt&& chakraTimer < millis() || (moveRight && moveLeft && direction == 1) || hitting && blocking && direction == 1) {
         currentPlayerAnimation.right();
         imageMode(CENTER);
         image(currentPlayerAnimation.sasukeAnimationRight[counter], x, y, 100, 100);
@@ -677,7 +687,7 @@ class Player {  //<>//
         }
       }
       //idle left
-      if (direction == 0 && !moveLeft && !jump && y == 600 && !hitting && !hurt&& chakraTimer < millis()) {
+      if (direction == 0 && !moveLeft && !jump && y == 600 && !hitting && !hurt&& chakraTimer < millis() || ( moveLeft && moveRight && direction == 0) || hitting && blocking && direction == 0) {
         currentPlayerAnimation.left();
         imageMode(CENTER);
         image(currentPlayerAnimation.sasukeAnimationLeft[counter], x, y, 100, 100);
@@ -687,7 +697,7 @@ class Player {  //<>//
         }
       }
       //attack left
-      if (direction == 0 && hitting && !jump && y == 600 && !hurt) {
+      if (direction == 0 && hitting && !jump && y == 600 && !hurt && !blocking) {
         currentPlayerAnimation.attackLeft();
         imageMode(CENTER);
         image(currentPlayerAnimation.sasukeAnimationAttackLeft[counter], x, y, 100, 100);
@@ -697,7 +707,7 @@ class Player {  //<>//
         }
       }
       //attack right
-      if (direction == 1 && !jump && y == 600 && hitting && !hurt) {
+      if (direction == 1 && !jump && y == 600 && hitting && !hurt && !blocking) {
         currentPlayerAnimation.attackRight();
         imageMode(CENTER);
         image(currentPlayerAnimation.sasukeAnimationAttackRight[counter], x, y, 100, 100);
@@ -707,6 +717,7 @@ class Player {  //<>//
         }
       }
 
+      //The chidori's left animation
       if (direction == 0 && chakraOn && y == 600 && !hitting && !hurt && chakraTimer > millis()) {
         currentPlayerAnimation.specialLeft();
         imageMode(CENTER);
@@ -717,6 +728,7 @@ class Player {  //<>//
         }
       }
 
+      //The chidori's right animation
       if (direction == 1 && chakraOn && y == 600 && !hitting && !hurt && chakraTimer > millis()) {
         currentPlayerAnimation.specialRight();
         imageMode(CENTER);
@@ -727,6 +739,7 @@ class Player {  //<>//
         }
       }
 
+      //player's hurt right animation
       if (direction == 1 && hurt) {
         currentPlayerAnimation.damageRight();
         imageMode(CENTER);
@@ -737,6 +750,7 @@ class Player {  //<>//
         }
       }
 
+      //player's left hurt animation
       if (direction == 0 && hurt) {
         currentPlayerAnimation.damageLeft();
         imageMode(CENTER);

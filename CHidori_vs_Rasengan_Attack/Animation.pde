@@ -43,6 +43,8 @@ class Animation {
     player = _player;
   }
 
+  //assigning each array to a folder in the data that has each functions respective animations
+  //this allows us to call upon the arrays in the player class and have each character be fully animated
   void moveLeft() {
     sasukeAnimationMoveLeft = new PImage[6];
     narutoAnimationMoveLeft = new PImage[6];

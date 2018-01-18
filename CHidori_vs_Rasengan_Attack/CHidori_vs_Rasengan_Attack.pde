@@ -169,14 +169,14 @@ void statePicker() {
 void stateOpening() {
   //loads movie
   image(openingMovie, 0, 0, width, height);
-  
+
   //COMMENT BACK IN IF NEEDED DURING PRESENTATION OR IF DEMONSTRATING IN FUTURE YEARS ;)
-  options.calculator();
-  options.display();
-  startGame.calculator();
-  startGame.display();
+  //options.calculator();
+  //options.display();
+  //startGame.calculator();
+  //startGame.display();
   //COMMENT BACK IN IF NEEDED DURING PRESENTATION OR IF DEMONSTRATING IN FUTURE YEARS ;)
-  
+
   //if enough time passes then start menu
   if (millis() > 30500) {
     stateMenu();
