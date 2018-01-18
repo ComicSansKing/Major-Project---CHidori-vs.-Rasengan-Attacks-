@@ -59,13 +59,14 @@ class Player {  //<>//
     radius = _radius;
     player = _player;
     death = _death;
+    //set player direction to begin with, 1 = facing right, 2 = facing left 
     if (player == 1) {
       direction = 1;
     }
     if (player == 2) {
       direction = 0;
     }
-    //calll current health and attack for each player, updates per player
+    //call current health and attack for each player, updates per player
     currentPlayerHealth = new HP(health, player);
     currentPlayerAttack = new Attack(x, y, dx, dy);
     currentPlayerAnimation = new Animation(player);
@@ -82,11 +83,16 @@ class Player {  //<>//
     if ((direction == 1 && otherPlayer.direction == 0) || (direction == 0 && otherPlayer.direction == 1) || (direction == 1 && otherPlayer.direction == 1 && x < otherPlayer.x) || (direction == 0 && otherPlayer.direction == 0 && x > otherPlayer.x)) {
       if (distanceBetweenPlayers <= sumOfRadii) {
         currentPlayerAttack.meleeAttack(otherPlayer.currentPlayerHealth, attack);
+        //applies knockback to player who is attacked
         knockback(otherPlayer);
+        //otherPlayer changes to hurt animation 
         otherPlayer.hurt = true;
 
+        //if you attack then add 3 to chakra, if you are attacked add 5 to chakra
         chakra += 3;
         otherPlayer.chakra += 5;
+
+        //if chakra goes over the 300 limit it is equal to 300
         if (chakra > 300) {
           chakra = 300;
         }
@@ -97,10 +103,7 @@ class Player {  //<>//
     }
   }
 
-
-
   void keyPressed() { 
-
     //movement and jump code for players
     if (player == 1) {
       if (y == 600) {
@@ -110,24 +113,20 @@ class Player {  //<>//
           jump = true;
         }
       }
-
-
       if (key == 'a'|| key == 'A') {
         moveLeft = true;
       }
-
       if (key == 'd'|| key == 'D') {
         moveRight = true;
       }
       if (key == 'g'|| key == 'G') {
         blocking = true;
-        block = 255;
       }
     }
     if (player == 2) {
       if (keyCode == UP) {
         if (y == 600) {
-          timeOfJump = millis()+100;
+          timeOfJump = millis() + 100;
           jump = true;
         }
       }
@@ -141,15 +140,13 @@ class Player {  //<>//
       }
       if (key == '1') {
         blocking = true;
-        block = 255;
       }
     }
-
+    //stops you from moving when you are blocking
     if (blocking == true) {
       stopMoving();
     }
   }
-
 
   void keyReleased() {
     //when any key released set any movement to false
@@ -159,7 +156,6 @@ class Player {  //<>//
           jump = false;
         }
       }
-
       if (key == 'a'|| key == 'A') {
         moveLeft = false;
       }
@@ -168,11 +164,13 @@ class Player {  //<>//
         moveRight = false;
       }
       if (key == 's'|| key == 'S') {
+        //start the advanced combo counter, set a time limit to press next key
         comboCounterADV +=1;
         comboTimerADV = millis()+300;
       }
 
       if (key == 'f' || key == 'F') {
+        //increases combo counter and timer, increases combo timer advanced, and sets hitting to true
         timeOfHit = millis() + 100;
         hitting = true;
         comboCounterBasic += 1;
@@ -181,14 +179,15 @@ class Player {  //<>//
       }
       if (key == 'g'|| key == 'G') {
         blocking = false;
-        block = 0;
       }
       if (key == 'q' || key ==  'Q') {
+        //turns chakra on and sets a timer, sets position to x which moves later in the code
         if (chakra == 300) {
           currentChakraPosition = x;
           chakraOn = true;
           chakra = 0;
           chakraTimer = millis()+150;
+          //chakra direction is equal to direction player was facing when shot 
           if (direction == 0) {
             chakraDirection = 0;
           }
@@ -213,11 +212,13 @@ class Player {  //<>//
       }
 
       if (keyCode == DOWN) {
+        //start the advanced combo counter, set a time limit to press next key
         comboCounterADV +=1;
         comboTimerADV = millis()+300;
       }
 
       if (key == '0') {
+        //increases combo counter and timer, increases combo timer advanced, and sets hitting to true
         timeOfHit = millis() + 100;
         comboTimer = millis() + 500;
         hitting = true;
@@ -229,11 +230,13 @@ class Player {  //<>//
         block = 0;
       }
       if (key == '2') {
+        //turns chakra on and sets a timer, sets position to x which moves later in the code
         if (chakra == 300) {
           currentChakraPosition = x;
           chakraOn = true;
           chakraTimer = millis()+150;
           chakra = 0;
+          //chakra direction is equal to direction player was facing when shot 
           if (direction == 0) {
             chakraDirection = 0;
           }
@@ -246,9 +249,10 @@ class Player {  //<>//
   }
 
   void gravity() {
+    //y will equal itself + speed, speed equals itself + gravity
     y = y + speed;
     speed = speed + gravity;
-
+    //if you are above 600 your speed midair is 0, if you are above 650 then start descending at a rate of 12
     if (y > 600) {
       speed = speed * 0 ;
       y = 600;
@@ -273,7 +277,7 @@ class Player {  //<>//
         jump = false;
       }
     }
-    //update movement for x 
+    //update movement for x depending on direction and if not touching other player
     if (moveLeft) {
       direction = 0;
       if (touching != 1) {
@@ -290,38 +294,50 @@ class Player {  //<>//
   }
 
   void death() {
+    //if health hits 0 then die
     if (currentPlayerHealth.health <= 0) {
       death = 1;
     }
   }
 
   void hitting(Player otherPlayer) {
+    //if you hit the player and your millis are less than the hit timer then check collision and if colliding hit and take away health
     if (hitting && millis() <= timeOfHit ) { 
       checkIfCollidingWith(otherPlayer);
       currentPlayerHealth.display();
-    } else {
+    }
+    //else set hitting and hurt animation to false
+    else {
       hitting = false;
       otherPlayer.hurt = false;
     }
   }
 
   void comboDetector() {
+    //if the combo time is greater then millis and the counter = 3 then change attack to 5
     if (comboTimer >= millis()) {
       if (comboCounterBasic == 3) {
-        attack = 5;
+        if (blocking == false) {
+          attack = 5;
+        }
       }
     }
+    //if combo time is less then millis then change attack back to 2.5 and counter now = 0
     if (comboTimer < millis()) {
       comboCounterBasic = 0;
       attack = 2.5;
     }
+    //if time is greater then millis, advanced counter = 2, and regular counter = 2, then change attack to 10
     if (comboTimerADV >= millis()) {
       if (comboCounterADV  == 2) {
         if (comboCounterBasic == 2) {
-          attack = 10;
+          if (blocking == false) {
+            attack = 10;
+          }
         }
       }
     }
+    //if the advanced timer is less then millis set counter to 0 and attack back to normal 2.5
     if (comboTimerADV < millis()) {
       comboCounterADV = 0;
       attack = 2.5;
@@ -393,12 +409,16 @@ class Player {  //<>//
 
 
   void blockCheck(Player otherPlayer) {
-    if (blocking == true ) { 
+    //if your blocking is true then attack = 0
+    if (blocking) { 
       attack = 0;
+      //if player 1 direction is left and x is greater than player 2 then player 2 attack is set to 0.75
       if (direction == 0 && x > otherPlayer.x) {
         otherPlayer.attack = .75;
+        //if player 1 direction is right and x is less than player 2 then player 2 attack is set to 0.75
       } else if (direction == 1 && x < otherPlayer.x) {
         otherPlayer.attack = .75;
+        //else reset attack to 2.5
       } else {
         otherPlayer.attack = 2.5;
       }
@@ -432,12 +452,14 @@ class Player {  //<>//
 
 
   void collisionDetection(Player otherPlayer) {
+    //if the x of the players are equal to each other minus the size of player then they are touching
     if (x+50 == otherPlayer.x-50) {
       touching = 2;
       otherPlayer.touching = 1;
     } else if (x - 50 == otherPlayer.x + 50) {
       touching = 1;
       otherPlayer.touching = 2;
+      //else they are not touching
     } else {
       touching = 0;
       otherPlayer.touching = 0;
@@ -446,6 +468,7 @@ class Player {  //<>//
 
 
   void headCollision(Player otherPlayer) { 
+    //if all conditions true then bounce off of head of plater, DOES NOT WORK
     if (((x+50 <= otherPlayer.x+50) && (x+50 >= otherPlayer.x-50) &&((y + 100 <= otherPlayer.y - 100)))||((x-50 >= otherPlayer.x-50) && (x-50 <= otherPlayer.x+50) && ((y + 100 <= otherPlayer.y)))) {
       if (direction == 0) {
         x-=5;
@@ -459,21 +482,21 @@ class Player {  //<>//
   }
 
   void border() {
-    if (x+50 > width) {
+    //if x + player size is greater then width then do not pass
+    if (x + 50 > width) {
       x = width - 50;
     }
-    if (x-50 < 0) {
+    //if x - player size is less then 0 then do not pass
+    if (x - 50 < 0) {
       x = 0 + 50;
     }
   }
 
-
-
   void playerFunc(Player otherPlayer) {
     //take in other player's data
     //gravity, movement, and .display applied to self
+    //calls all functions
     movement();
-
     currentPlayerHealth.display();
     blockCheck(otherPlayer);
     headCollision(otherPlayer);
@@ -488,7 +511,6 @@ class Player {  //<>//
   }
 
   void display() {
-    //change player colours
     rectMode(CENTER);
     if (player == 1) {
       //move left
@@ -757,10 +779,11 @@ class Player {  //<>//
     }
 
     if (blocking) {
-      if (player==1) {
+      //draw an ellipse and set colour to different settings depending on character  
+      if (player == 1) {
         fill(247, 183, 7, 50);
       }
-      if (player==2) {
+      if (player == 2) {
         fill(47, 91, 181, 50);
       }
       ellipse(x, y, 125, 125);
